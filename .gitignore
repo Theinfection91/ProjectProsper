@@ -1,0 +1,26 @@
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild*/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+
+# Only include your code directory
+Assets/*
+!Assets/Scripts/
+!Assets/Scripts/**
+
+# Keep folder structure intact for Scenes or other folders you want visible
+!Assets/Scenes/
+
+# Ignore scene files (keeps them private)
+Assets/**/*.unity
+
+# Other miscellaneous
+*.csproj
+*.sln
+*.user
+*.DS_Store
+.vs/
