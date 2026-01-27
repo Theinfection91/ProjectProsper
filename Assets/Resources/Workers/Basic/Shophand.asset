@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b7610507791a5a4fb7e8004b6d19fde, type: 3}
+  m_Name: Shophand
+  m_EditorClassIdentifier: Assembly-CSharp::WorkerTypeSO
+  workerName: Shopkeep
+  description: Required to take money from customers and stocks shelves. Overtime
+    they may specialize depending on the store and current assigned specialist.
+  workerIcon: {fileID: 0}
+  category: 0
+  baseHiringCost: 0
+  baseDailyWage: 0
+  canLevelUp: 1
+  canMentor: 0
+  gatherableResources: []
+  baseGatherRate: 0
+  primaryShop: {fileID: 0}

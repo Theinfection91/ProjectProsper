@@ -6,9 +6,9 @@ using UnityEngine;
 public class GameDatabase : ScriptableObject
 {
     [Header("All Game Data")]
-    public List<WorkerTypeSO> allWorkers = new List<WorkerTypeSO>();
-    public List<ShopTypeSO> allShops = new List<ShopTypeSO>();
-    public List<ItemTypeSO> allItems = new List<ItemTypeSO>();
+    public List<WorkerTypeSO> allWorkers = new();
+    public List<ShopTypeSO> allShops = new();
+    public List<ItemTypeSO> allItems = new();
 
     #region Worker Queries
     public WorkerTypeSO GetWorkerByName(string name)

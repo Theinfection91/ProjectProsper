@@ -9,6 +9,8 @@ UserSettings/
 
 # Only include your code directory
 Assets/*
+!Assets/Resources/
+!Assets/Resources/**
 !Assets/Scripts/
 !Assets/Scripts/**
 

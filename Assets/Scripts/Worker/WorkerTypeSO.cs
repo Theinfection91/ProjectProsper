@@ -6,6 +6,7 @@ public class WorkerTypeSO : ScriptableObject
 {
     [Header("Basic Info")]
     public string workerName;
+    [TextArea]
     public string description;
     public Sprite workerIcon;
 
