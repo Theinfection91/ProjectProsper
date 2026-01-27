@@ -1,19 +1,20 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewWorkerType", menuName = "Scriptable Objects/WorkerTypeSO")]
+[CreateAssetMenu(fileName = "NewWorkerType", menuName = "Scriptable Objects/Worker/WorkerTypeSO")]
 public class WorkerTypeSO : ScriptableObject
 {
     [Header("Basic Info")]
-    public string workerTypeName;
+    public string workerName;
     public string description;
     public Sprite workerIcon;
 
     [Header("Category")]
-    public WorkerCategory workerCategory;
+    public WorkerCategory category;
 
     [Header("Costs & Wages")]
-    public int hiringCost;
-    public int dailyWage;
+    public int baseHiringCost;
+    public int baseDailyWage;
 
     [Header("Skills & Progression")]
     public bool canLevelUp;
@@ -21,8 +22,8 @@ public class WorkerTypeSO : ScriptableObject
 
     [Header("For Gatherers: What They Produce")]
     [Tooltip("Leave empty if not a gatherer")]
-    //public ItemTypeSO gatheredResource;
-    public int gatherRatePerDay;
+    public List<ItemTypeSO> gatherableResources = new();
+    public int baseGatherRate;
 
     [Header("For Service Workers: What Shops They Work In")]
     [Tooltip("Leave empty if not a service specialist")]
