@@ -21,12 +21,15 @@ public class WorkerTypeSO : ScriptableObject
     public bool canLevelUp;
     public bool canMentor;
 
+    [Header("Workable Shops")]
+    public List<ShopTypeSO> employableShops = new();
+
     [Header("For Gatherers: What They Produce")]
     [Tooltip("Leave empty if not a gatherer")]
     public List<ItemTypeSO> gatherableResources = new();
     public int baseGatherRate;
 
-    [Header("For Service Workers: What Shops They Work In")]
-    [Tooltip("Leave empty if not a service specialist")]
-    public ShopTypeSO primaryShop;
+    //[Header("For Service Workers: What Shops They Work In")]
+    //[Tooltip("Leave empty if not a service specialist")]
+    
 }

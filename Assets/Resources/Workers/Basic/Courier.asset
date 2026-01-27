@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Courier
   m_EditorClassIdentifier: Assembly-CSharp::WorkerTypeSO
   workerName: Courier
-  description: A delivery person who is capable of moving large quantities of products
-    between player owned shops, and storehouses, as well as selling large amounts
-    of items to buyers.
+  description: Basic worker. A delivery person who is capable of moving large quantities
+    of products between player owned shops, and storehouses, as well as selling large
+    amounts of items to buyers.
   workerIcon: {fileID: 0}
   category: 0
   baseHiringCost: 0

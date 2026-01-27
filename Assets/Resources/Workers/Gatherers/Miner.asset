@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b7610507791a5a4fb7e8004b6d19fde, type: 3}
+  m_Name: Miner
+  m_EditorClassIdentifier: Assembly-CSharp::WorkerTypeSO
+  workerName: Miner
+  description: 
+  workerIcon: {fileID: 0}
+  category: 1
+  baseHiringCost: 0
+  baseDailyWage: 0
+  canLevelUp: 1
+  canMentor: 1
+  employableShops:
+  - {fileID: 11400000, guid: d5734757481221044ac733703a67c621, type: 2}
+  - {fileID: 11400000, guid: b79fd9d0a51c7994b9127edfeffc6abc, type: 2}
+  gatherableResources: []
+  baseGatherRate: 0

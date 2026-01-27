@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Shophand
   m_EditorClassIdentifier: Assembly-CSharp::WorkerTypeSO
   workerName: Shopkeep
-  description: Required to take money from customers and stocks shelves. Overtime
-    they may specialize depending on the store and current assigned specialist.
+  description: Basic Worker. Required to take money from customers and stocks shelves.
+    Overtime they may specialize depending on the store and current assigned specialist.
   workerIcon: {fileID: 0}
   category: 0
   baseHiringCost: 0

@@ -6,6 +6,7 @@ public class ShopTypeSO : ScriptableObject
 {
     [Header("Basic Info")]
     public string shopName;
+    [TextArea]
     public string description;
     public Sprite shopIcon;
 
@@ -13,5 +14,6 @@ public class ShopTypeSO : ScriptableObject
     public List<ItemTypeSO> sellableItems = new();
 
     [Header("Worker Info")]
-    public WorkerTypeSO specialistType;
+    public WorkerTypeSO serviceWorker;
+    public WorkerTypeSO gathererWorker;
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 public class ItemTypeSO : ScriptableObject
 {
     public string itemName;
+    [TextArea]
     public string description;
     public Sprite itemSprite;
     public int baseValue;

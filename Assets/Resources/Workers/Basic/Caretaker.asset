@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Caretaker
   m_EditorClassIdentifier: Assembly-CSharp::WorkerTypeSO
   workerName: Caretaker
-  description: 'Provides cleaning and maintenance to assigned establishment. '
+  description: 'Basic Worker. Provides cleaning and maintenance to assigned establishment. '
   workerIcon: {fileID: 0}
   category: 0
   baseHiringCost: 0
