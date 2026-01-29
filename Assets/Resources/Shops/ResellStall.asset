@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72d877190767e04dac6d38ce97b1f85, type: 3}
+  m_Name: ResellStall
+  m_EditorClassIdentifier: Assembly-CSharp::ShopTypeSO
+  shopName: Resell Stall
+  description: Resell various types of items without needing the specialized store.
+    Can only display a few items to sell at a time.
+  shopIcon: {fileID: 0}
+  sellableItems: []
+  serviceWorker: {fileID: 0}
+  gathererWorker: {fileID: 0}
