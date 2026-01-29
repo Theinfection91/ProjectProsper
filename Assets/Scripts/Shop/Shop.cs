@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Shop
 {
+    public string id;
     public string name;
     public ShopTypeSO shopType = null;
     public ShopOwnership ownership = ShopOwnership.Unclaimed;
@@ -14,9 +15,10 @@ public class Shop
 
     public int daysRented;
 
-    public Shop()
+    public Shop(string id, string name)
     {
-
+        this.id = id;
+        this.name = name;
     }
 
     public void ClaimForPlayer(string playerName)

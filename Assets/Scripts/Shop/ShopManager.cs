@@ -21,6 +21,14 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    public string GenerateShopIDNumber()
+    {
+        int totalShops = allShops.Count + 1;
+
+        // "D3" = pad with zeros to 3 digits
+        return totalShops.ToString("D3");
+    }
+
     public void RegisterShop(Shop shop)
     {
         if (!allShops.Contains(shop))

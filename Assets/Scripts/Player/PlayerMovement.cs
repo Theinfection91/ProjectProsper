@@ -6,9 +6,9 @@ public class PlayerMovement : MonoBehaviour
     public static PlayerMovement Instance { get; private set; }
 
     // Animation TODO
-    public Animator playerAnimator;
-    private Vector2 _moveDirection = new(0, 0);
-    private Vector2 _lastKnownXDirection = new(0, 0);
+    //public Animator playerAnimator;
+    public Vector2 moveDirection = new(0, 0);
+    public Vector2 lastKnownXDirection = new(0, 0);
 
     // Input
     public InputAction moveAction;
@@ -61,23 +61,23 @@ public class PlayerMovement : MonoBehaviour
         //}
 
         _moveVector = moveAction.ReadValue<Vector2>();
-        if (_moveDirection.x >= 1 || _moveDirection.x <= -1)
+        if (moveDirection.x >= 1 || moveDirection.x <= -1)
         {
-            _lastKnownXDirection.Set(_moveDirection.x, 0);
+            lastKnownXDirection.Set(moveDirection.x, 0);
         }
 
         if (!Mathf.Approximately(_moveVector.x, 0.0f) || !Mathf.Approximately(_moveVector.y, 0.0f))
         {
-            _moveDirection.Set(_moveVector.x, _moveVector.y);
-            _moveDirection.Normalize();
+            moveDirection.Set(_moveVector.x, _moveVector.y);
+            moveDirection.Normalize();
         }
 
         // Update the animator parameters
-        playerAnimator.SetFloat("Horizontal", _moveDirection.x);
-        playerAnimator.SetFloat("Vertical", _moveDirection.y);
+        //playerAnimator.SetFloat("Horizontal", moveDirection.x);
+        //playerAnimator.SetFloat("Vertical", moveDirection.y);
 
         _isMoving = _moveVector != Vector2.zero;
-        playerAnimator.SetBool("isMoving", _isMoving);
+        //playerAnimator.SetBool("isMoving", _isMoving);
     }
 
     private void FixedUpdate()

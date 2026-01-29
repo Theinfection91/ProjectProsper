@@ -1,7 +1,8 @@
+using Assets.Scripts.Interactions;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopSign : MonoBehaviour
+public class ShopSign : MonoBehaviour, IInteractable
 {
     // Basic Info
     public string id;
@@ -25,15 +26,20 @@ public class ShopSign : MonoBehaviour
     public int initialDepositAmount;
     public float footTrafficRating;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Interact()
     {
-        
+        // Open Shop Claiming UI if not claimed
+        Debug.Log("Interacted with Shop Sign: " + id);
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool CanInteract()
     {
-        
+        return !isClaimed;
+    }
+
+    public void ClaimProperty(int claimedSignLayer)
+    {
+        isClaimed = true;
+        gameObject.layer = claimedSignLayer;
     }
 }
