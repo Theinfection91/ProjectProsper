@@ -13,14 +13,10 @@ Assets/*
 !Assets/Prefabs/**
 !Assets/Resources/
 !Assets/Resources/**
+!Assets/Scenes/
+!Assets/Scenes/**
 !Assets/Scripts/
 !Assets/Scripts/**
-
-# Keep folder structure intact for Scenes or other folders you want visible
-!Assets/Scenes/
-
-# Ignore scene files (keeps them private)
-Assets/**/*.unity
 
 # Other miscellaneous
 *.csproj
