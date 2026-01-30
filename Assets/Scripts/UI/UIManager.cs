@@ -8,9 +8,11 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
 
     // Banker UI
+    [Header("Banker UI")]
     public Canvas bankUICanvas;
 
     // ShopSign UI
+    [Header("ShopSign UI")]
     public Canvas shopSignCanvas;
     public TMP_Text shopSizeText;
     public TMP_Text itemSlotsText;
@@ -21,17 +23,23 @@ public class UIManager : MonoBehaviour
     public TMP_InputField shopNameInput;
     public ShopSign currentShopSign;
 
-    // ShopCommand UI
+    // ShopCommand (Vendor Stall) UI
+    [Header("Shop Command (Vendor Stall) UI")]
     public Canvas shopCommandCanvas;
+    public GameObject shopInvSlot;
+    public Image shopInvSlotPanel;
 
     // Black Screen Fade
+    [Header("Black Screen Fade")]
     public Image blackScreenFade;
     public float fadeDuration = .5f;
 
     // Clock UI
+    [Header("Clock UI")]
     public TMP_Text clockText;
 
     // Gold UI
+    [Header("Gold UI")]
     public TMP_Text goldAmountText;
 
     private void Awake()

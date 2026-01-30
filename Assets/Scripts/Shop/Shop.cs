@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class Shop
 {
+    // Basic Info
     public string id;
     public string name;
     public ShopTypeSO shopType = null;
@@ -13,15 +14,21 @@ public class Shop
     public ShopOwnership ownership = ShopOwnership.Unclaimed;
     public string ownerName;
     public int dailyRent;
+    public int daysRented;
 
+    // Workers
     public List<Worker> employedWorkers = new();
+
+    // Earnings Tracking
+    public int earningsToday = 0;
+    public int yesterdayEarnings = 0;
+    public int totalEarnings = 0;
+    public Dictionary<int, int> previousEarningHistory = new(); // Key: Day number, Value: Earnings
 
     // Resell Stall Specific
     public int currentItemSlots = 0;
     public int maxItemSlots = 0;
     public float footTrafficScore = 1.0f;
-
-    public int daysRented;
 
     public Shop(string id, string name)
     {
