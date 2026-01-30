@@ -9,6 +9,8 @@ UserSettings/
 
 # Only include your code directory
 Assets/*
+!Assets/Prefabs/
+!Assets/Prefabs/**
 !Assets/Resources/
 !Assets/Resources/**
 !Assets/Scripts/
