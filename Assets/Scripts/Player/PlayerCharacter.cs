@@ -11,6 +11,8 @@ public class PlayerCharacter : MonoBehaviour
     public int maxShopsCount = 1;
     public int currentShopsCount = 0;
 
+    public int maxLoans = 1;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)

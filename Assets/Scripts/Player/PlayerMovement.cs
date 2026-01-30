@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         // Stop if game is paused.
-        //if (GameManager.IsGamePaused) return;
+        if (GameManager.IsGamePaused) return;
 
         //if (Keyboard.current.eKey.wasPressedThisFrame)
         //{
@@ -82,6 +82,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // Stop if game is paused.
+        if (GameManager.IsGamePaused) return;
+
         if (canMove)
         {
             Vector2 position = rb2d.position + _moveVector * moveSpeed * Time.deltaTime;

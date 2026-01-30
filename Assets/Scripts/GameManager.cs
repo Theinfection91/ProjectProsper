@@ -4,6 +4,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public static bool IsGamePaused { get; private set; }
+
     [Header("Game Data")]
     public GameDatabase database;
 
@@ -22,4 +24,16 @@ public class GameManager : MonoBehaviour
 
     // Easy access throughout your game
     public static GameDatabase Database => Instance.database;
+
+    public void PauseGame()
+    {
+        if (IsGamePaused) return;
+        IsGamePaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        if (!IsGamePaused) return;
+        IsGamePaused = false;
+    }
 }
