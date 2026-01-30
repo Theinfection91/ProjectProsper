@@ -6,6 +6,10 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+    // Banker UI
+    public Canvas bankUICanvas;
+
+    // Black Screen Fade
     public Image blackScreenFade;
     public float fadeDuration = .5f;
 
@@ -24,7 +28,12 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        blackScreenFade.gameObject.SetActive(false);
+        if (bankUICanvas != null)
+        {
+            bankUICanvas.enabled = false;
+            //errorMessageText.gameObject.SetActive(false);
+            blackScreenFade.gameObject.SetActive(false);
+        }
     }
 
     public void BlackScreenTransition()
@@ -48,5 +57,17 @@ public class UIManager : MonoBehaviour
             blackScreenFade.gameObject.SetActive(false);
             blackScreenFade.CrossFadeAlpha(1f, 0f, false);
         }
+    }
+
+    public void OpenBankWindowUI()
+    {
+        if (bankUICanvas == null) return;
+        bankUICanvas.enabled = true;
+    }
+
+    public void CloseBankWindowUI()
+    {
+        if (bankUICanvas == null) return;
+        bankUICanvas.enabled = false;
     }
 }
