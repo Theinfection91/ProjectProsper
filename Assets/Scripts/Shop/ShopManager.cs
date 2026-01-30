@@ -51,6 +51,10 @@ public class ShopManager : MonoBehaviour
         };
 
         // For street vendor stalls, set item slots if provided
+        if (shopSize == ShopSize.StreetVendorStall)
+        {
+            newShop.SetShopType(GameManager.Instance.database.GetShopByName("Resell Stall"));
+        }
         if (currentItemSlots > 0)
         {
             newShop.currentItemSlots = currentItemSlots;
