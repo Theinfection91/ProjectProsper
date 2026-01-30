@@ -21,6 +21,9 @@ public class UIManager : MonoBehaviour
     public TMP_InputField shopNameInput;
     public ShopSign currentShopSign;
 
+    // ShopCommand UI
+    public Canvas shopCommandCanvas;
+
     // Black Screen Fade
     public Image blackScreenFade;
     public float fadeDuration = .5f;
@@ -53,6 +56,7 @@ public class UIManager : MonoBehaviour
             blackScreenFade.gameObject.SetActive(false);
         }
         shopSignCanvas.enabled = false;
+        shopCommandCanvas.enabled = false;
     }
 
     void Update()
@@ -136,12 +140,23 @@ public class UIManager : MonoBehaviour
     {
         if (shopSignCanvas == null) return;
         shopSignCanvas.enabled = true;
+
+        // Reset the input field text and deselect it
+        shopNameInput.text = "Your new shop's name here...";
+        shopNameInput.DeactivateInputField();
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+
         GameManager.Instance.PauseGame();
     }
 
     public void CloseShopSignUI()
     {
         if (shopSignCanvas == null) return;
+
+        // Deselect and deactivate the input field before hiding
+        shopNameInput.DeactivateInputField();
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+
         shopSignCanvas.enabled = false;
         GameManager.Instance.ResumeGame();
     }

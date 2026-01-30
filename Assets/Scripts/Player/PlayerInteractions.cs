@@ -24,6 +24,7 @@ public class PlayerInteractions : MonoBehaviour
     {
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
+            if (GameManager.IsGamePaused) return;
             Interact();
         }
     }
