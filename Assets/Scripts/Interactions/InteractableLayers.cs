@@ -6,6 +6,6 @@ namespace Assets.Scripts.Interactions
 {
     public class InteractableLayers
     {
-        public static readonly string[] layers = { "NPC", "ForRentSignAvailable", "ShopCommand", "ClaimedByNPC" };
+        public static readonly string[] layers = { "NPC", "ForRentSignAvailable", "ClaimedByPlayer", "ClaimedByNPC" };
     }
 }

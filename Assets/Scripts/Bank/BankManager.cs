@@ -5,7 +5,7 @@ public class BankManager : MonoBehaviour
 {
     public static BankManager Instance { get; private set; }
 
-    public int currentLoanRate = 5000;
+    public int currentLoanRate = 2000;
     public int currentDailyDeduction = 10;
     public List<Loan> activeLoans = new();
     public List<Loan> paidOffLoans = new();

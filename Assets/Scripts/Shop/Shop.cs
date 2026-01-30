@@ -3,15 +3,23 @@ using Assets.Scripts.Worker;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Shop
 {
     public string id;
     public string name;
     public ShopTypeSO shopType = null;
+    public ShopSize size;
     public ShopOwnership ownership = ShopOwnership.Unclaimed;
     public string ownerName;
+    public int dailyRent;
 
     public List<Worker> employedWorkers = new();
+
+    // Resell Stall Specific
+    public int currentItemSlots = 0;
+    public int maxItemSlots = 0;
+    public float footTrafficScore = 1.0f;
 
     public int daysRented;
 

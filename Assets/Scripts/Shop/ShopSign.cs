@@ -1,4 +1,5 @@
 using Assets.Scripts.Interactions;
+using Assets.Scripts.Shop;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,8 +16,8 @@ public class ShopSign : MonoBehaviour, IInteractable
     public ShopSize size;
 
     // Inventory
-    public int maxItems;
-    public int currentItems;
+    public int maxItemSlots;
+    public int currentItemSlots;
 
     // Workers
     public int maxWorkers;
@@ -24,17 +25,33 @@ public class ShopSign : MonoBehaviour, IInteractable
     // Other
     public int dailyRent;
     public int initialDepositAmount;
-    public float footTrafficRating;
+    public float footTrafficScore;
 
     public void Interact()
     {
+        if (isClaimed)
+        {
+            if (claimedShop.ownership == ShopOwnership.Player)
+            {
+                Debug.Log($"Interacted with Player's Shop: {claimedShop.id} - Opening Shop Command");
+                return;
+            }
+            if (claimedShop.ownership == ShopOwnership.NPC)
+            {
+                Debug.Log($"Interacted with NPC's Shop: ID {claimedShop.id} - Owner: {claimedShop.ownerName} - Type: {claimedShop.shopType.shopName}");
+                return;
+            }
+        }
+
         // Open Shop Claiming UI if not claimed
-        Debug.Log("Interacted with Shop Sign: " + id);
+        Debug.Log($"Interacted with unclaimed Shop Sign: {id}");
+        UIManager.Instance.PopulateShopSignData(this);
+        UIManager.Instance.OpenShopSignUI();
     }
 
     public bool CanInteract()
     {
-        return !isClaimed;
+        return true; 
     }
 
     public void ClaimProperty(int claimedSignLayer)
