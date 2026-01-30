@@ -1,4 +1,3 @@
-using Unity.Cinemachine;
 using UnityEngine;
 
 public class LocationTransition : MonoBehaviour
@@ -13,8 +12,15 @@ public class LocationTransition : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // TODO Black screen transition effect
+            // Reset physics before teleporting
+            Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+            }
 
+            UIManager.Instance.BlackScreenTransition();
             LocationManager.Instance.MovePlayerToLocation(targetLocationID);
         }
     }

@@ -37,18 +37,6 @@ public class LocationManager : MonoBehaviour
             Debug.Log($"Checking transition from {transition.thisLocationID} {transition.thisLocationName} to {transition.targetLocationID} {transition.targetLocationName}");
             if (transition.thisLocationID == targetLocationID)
             {
-                //GameObject player = GameObject.FindGameObjectWithTag("Player");
-                //if (player != null)
-                //{
-                //    player.transform.position = transition.transform.position;
-                //    Debug.Log($"Player moved to location: {locationID}");
-                //}
-                //else
-                //{
-                //    Debug.LogWarning("Player object not found!");
-                //}
-                //return;
-
                 Debug.Log($"Transitioning to {transition.targetLocationID} at position {transition.transform.position}");
                 PlayerMovement.Instance.transform.position = transition.transform.position;
                 Debug.Log($"Player moved to location: {targetLocationID}");

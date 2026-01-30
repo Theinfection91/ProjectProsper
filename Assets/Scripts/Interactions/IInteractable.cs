@@ -6,7 +6,7 @@ namespace Assets.Scripts.Interactions
 {
     public interface IInteractable
     {
-        void Interact();
-        bool CanInteract();
+        abstract void Interact();
+        abstract bool CanInteract();
     }
 }
