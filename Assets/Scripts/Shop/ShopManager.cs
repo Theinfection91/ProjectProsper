@@ -39,10 +39,9 @@ public class ShopManager : MonoBehaviour
         return true;
     }
 
-    public Shop CreatePlayerShop(string shopName, ShopSize shopSize, int rent, float footTraffic, int currentItemSlots = 0, int maxItemSlots = 0)
+    public Shop CreatePlayerShop(string id, string shopName, ShopSize shopSize, int rent, float footTraffic, int currentItemSlots = 0, int maxItemSlots = 0)
     {
-        string newId = GenerateShopIDNumber();
-        Shop newShop = new Shop(newId, shopName)
+        Shop newShop = new Shop(id, shopName)
         {
             size = shopSize,
             dailyRent = rent,
@@ -81,9 +80,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public Shop GetShop(string shopName)
+    public Shop GetShop(string id)
     {
-        return allShops.Find(shop => shop.name == shopName);
+        return allShops.Find(shop => shop.id == id);
     }
 
     public List<Shop> GetAllShops()

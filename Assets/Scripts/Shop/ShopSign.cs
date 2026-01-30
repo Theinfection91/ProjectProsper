@@ -9,7 +9,7 @@ public class ShopSign : MonoBehaviour, IInteractable
     public string id;
     public Vector3 location;
     public bool isClaimed;
-    public Shop claimedShop = null;
+    //public Shop claimedShop = null;
 
     // Type and Size
     public List<ShopTypeSO> availableShopTypes;
@@ -31,9 +31,16 @@ public class ShopSign : MonoBehaviour, IInteractable
     {
         if (isClaimed)
         {
+            Shop claimedShop = ShopManager.Instance.GetShop(id);
             if (claimedShop.ownership == ShopOwnership.Player)
             {
-                Debug.Log($"Interacted with Player's Shop: {claimedShop.id} - Opening Shop Command");
+                Debug.Log($"Interacted with Player's Shop: {claimedShop.id}");
+                if (size == ShopSize.StreetVendorStall)
+                {
+                    Shop stall = ShopManager.Instance.GetShop(claimedShop.id);
+                    UIManager.Instance.PopulateStallShopCommand(stall);
+                    UIManager.Instance.OpenStallShopCommand();
+                }
                 return;
             }
             if (claimedShop.ownership == ShopOwnership.NPC)

@@ -30,6 +30,10 @@ public class Shop
     public int maxItemSlots = 0;
     public float footTrafficScore = 1.0f;
 
+    // States
+    public bool isOpenForBusiness = false;
+    public bool isWithinOperatingHours = false;
+
     public Shop(string id, string name)
     {
         this.id = id;

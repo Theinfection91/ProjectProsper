@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
+    [Header("Current Opened UI")]
+    // Reference to the currently opened canvas
+    public Canvas currentOpenedCanvas;
 
     // Banker UI
     [Header("Banker UI")]
@@ -26,8 +29,12 @@ public class UIManager : MonoBehaviour
     // ShopCommand (Vendor Stall) UI
     [Header("Shop Command (Vendor Stall) UI")]
     public Canvas shopCommandCanvas;
+    public TMP_Text shopNameText;
     public GameObject shopInvSlot;
     public Image shopInvSlotPanel;
+    public TMP_Text todaysEarningsText;
+    public TMP_Text yesterdayEarningsText;
+    public TMP_Text totalEarningsText;
 
     // Black Screen Fade
     [Header("Black Screen Fade")]
@@ -114,18 +121,27 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void CloseCurrentUIWindow()
+    {
+        if (currentOpenedCanvas != null)
+        {
+            if (currentOpenedCanvas == shopSignCanvas)
+            {
+                // Deselect and deactivate the input field before hiding
+                shopNameInput.DeactivateInputField();
+                UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+            }
+            currentOpenedCanvas.enabled = false;
+            GameManager.Instance.ResumeGame();
+        }
+    }
+
     public void OpenBankWindowUI()
     {
         if (bankUICanvas == null) return;
         bankUICanvas.enabled = true;
+        currentOpenedCanvas = bankUICanvas;
         GameManager.Instance.PauseGame();
-    }
-
-    public void CloseBankWindowUI()
-    {
-        if (bankUICanvas == null) return;
-        bankUICanvas.enabled = false;
-        GameManager.Instance.ResumeGame();
     }
 
     public void OnTakeOutLoanButtonClicked()
@@ -148,6 +164,7 @@ public class UIManager : MonoBehaviour
     {
         if (shopSignCanvas == null) return;
         shopSignCanvas.enabled = true;
+        currentOpenedCanvas = shopSignCanvas;
 
         // Reset the input field text and deselect it
         shopNameInput.text = "Your new shop's name here...";
@@ -155,18 +172,6 @@ public class UIManager : MonoBehaviour
         UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
 
         GameManager.Instance.PauseGame();
-    }
-
-    public void CloseShopSignUI()
-    {
-        if (shopSignCanvas == null) return;
-
-        // Deselect and deactivate the input field before hiding
-        shopNameInput.DeactivateInputField();
-        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
-
-        shopSignCanvas.enabled = false;
-        GameManager.Instance.ResumeGame();
     }
 
     public void PopulateShopSignData(ShopSign currentShopSign)
@@ -196,18 +201,45 @@ public class UIManager : MonoBehaviour
         PlayerInventory.Instance.RemoveGold(currentShopSign.dailyRent + currentShopSign.initialDepositAmount);
 
         // Create shop and add to list
-        ShopManager.Instance.CreatePlayerShop(shopNameInput.text, currentShopSign.size, currentShopSign.dailyRent, currentShopSign.footTrafficScore, currentShopSign.currentItemSlots, currentShopSign.maxItemSlots);
+        ShopManager.Instance.CreatePlayerShop(currentShopSign.id, shopNameInput.text, currentShopSign.size, currentShopSign.dailyRent, currentShopSign.footTrafficScore, currentShopSign.currentItemSlots, currentShopSign.maxItemSlots);
 
-        Debug.Log($"{ShopManager.Instance.GetShop(shopNameInput.text).name} created.");
+        Debug.Log($"{ShopManager.Instance.GetShop(currentShopSign.id).name} created.");
 
         // Increment player shop count
         PlayerCharacter.Instance.currentShopsCount++;
 
         currentShopSign.ClaimProperty(8);
         currentShopSign.isClaimed = true;
-        currentShopSign.claimedShop = ShopManager.Instance.GetShop(shopNameInput.text);
         currentShopSign = null;
 
-        CloseShopSignUI();
+        //CloseShopSignUI();
+        CloseCurrentUIWindow();
+    }
+
+    public void PopulateStallShopCommand(Shop shop)
+    {
+        if (shopCommandCanvas == null) return;
+        shopNameText.text = shop.name;
+        todaysEarningsText.text = $"Today's Earnings: {shop.earningsToday}";
+        yesterdayEarningsText.text = $"Yesterday's Earnings: {shop.yesterdayEarnings}";
+        totalEarningsText.text = $"Total Earnings: {shop.totalEarnings}";
+        // Clear existing slots
+        foreach (Transform child in shopInvSlotPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        // Populate with current slot amount
+        for (int i = 0; i < shop.currentItemSlots; i++)
+        {
+            GameObject slot = Instantiate(shopInvSlot, shopInvSlotPanel.transform);
+        }
+    }
+
+    public void OpenStallShopCommand()
+    {
+        if (shopCommandCanvas == null) return;
+        shopCommandCanvas.enabled = true;
+        currentOpenedCanvas = shopCommandCanvas;
+        GameManager.Instance.PauseGame();
     }
 }
