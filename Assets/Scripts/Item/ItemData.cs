@@ -5,7 +5,7 @@ using System.Text;
 namespace Assets.Scripts.Item
 {
     [Serializable]
-    class ItemData
+    public class ItemData
     {
         public ItemSO itemSO;
         public int quantity;

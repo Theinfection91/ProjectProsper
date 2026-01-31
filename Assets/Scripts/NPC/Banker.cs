@@ -6,12 +6,5 @@ public class Banker : NPC
     {
         Debug.Log("Welcome to the bank! How can I assist you today?");
         UIManager.Instance.OpenBankWindowUI();
-        // Additional banking interaction logic can be added here
-    }
-
-    public override bool CanInteract()
-    {
-        // Add any specific conditions for interacting with the banker
-        return true;
     }
 }

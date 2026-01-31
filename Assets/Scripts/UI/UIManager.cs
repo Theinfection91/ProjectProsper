@@ -1,4 +1,6 @@
+using Assets.Scripts.Item;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -54,6 +56,11 @@ public class UIManager : MonoBehaviour
     [Header("Gold UI")]
     public TMP_Text goldAmountText;
 
+    [Header("Wholesale UI")]
+    public Canvas wholesaleCanvas;
+    public GameObject itemForSaleSlot;
+    public Image itemForSaleSlotPanel;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -78,6 +85,7 @@ public class UIManager : MonoBehaviour
         }
         shopSignCanvas.enabled = false;
         shopCommandCanvas.enabled = false;
+        wholesaleCanvas.enabled = false;
     }
 
     void Update()
@@ -280,5 +288,39 @@ public class UIManager : MonoBehaviour
         shopCommandCanvas.enabled = true;
         currentOpenedCanvas = shopCommandCanvas;
         GameManager.Instance.PauseGame();
+    }
+
+    public void OpenWholesaleUI()
+    {
+        if (wholesaleCanvas == null) return;
+        wholesaleCanvas.enabled = true;
+        currentOpenedCanvas = wholesaleCanvas;
+        GameManager.Instance.PauseGame();
+    }
+
+    public void CloseWholesaleUI()
+    {
+        if (wholesaleCanvas == null) return;
+        wholesaleCanvas.enabled = false;
+        GameManager.Instance.ResumeGame();
+    }
+
+    public void PopulateWholesaleItems(List<ItemData> itemsForSale)
+    {
+        // Clear existing slots
+        foreach (Transform child in itemForSaleSlotPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        // Populate with items for sale
+        foreach (var item in itemsForSale)
+        {
+            GameObject slot = Instantiate(itemForSaleSlot, itemForSaleSlotPanel.transform);
+            ItemForSaleSlot slotComponent = slot.GetComponent<ItemForSaleSlot>();
+            if (slotComponent != null)
+            {
+                slotComponent.SetupItemForSale(item);
+            }
+        }
     }
 }

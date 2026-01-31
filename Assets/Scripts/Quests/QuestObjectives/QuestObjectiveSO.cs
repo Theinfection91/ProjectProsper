@@ -4,5 +4,4 @@ using UnityEngine;
 public abstract class QuestObjectiveSO : ScriptableObject
 {
     public string description;
-    public abstract bool IsComplete();
 }

@@ -1,3 +1,4 @@
+using Assets.Scripts.Item;
 using Assets.Scripts.Shop;
 using System.Collections.Generic;
 using UnityEngine;
@@ -105,6 +106,37 @@ public class ShopManager : MonoBehaviour
             Debug.Log($"Deducted {shop.dailyRent} gold for daily rent of shop {shop.name}.");
         }
     }
+
+    #region Wholesale Purchasing (Items->Player)
+    public bool CanBuyFromWholesaler(Wholesaler wholesaler, ItemData itemData)
+    {
+        // Check if player has enough gold (Whole sale item price is base value for simplicity)
+        int totalCost = itemData.itemSO.baseValue * itemData.quantity;
+        if (!PlayerInventory.Instance.HasGoldAmount(totalCost))
+        {
+            Debug.Log("Not enough gold to buy from wholesaler.");
+            return false;
+        }
+        // Check player inventory weight capacity
+        if (!PlayerInventory.Instance.CanCarryItemWeight(itemData.itemSO.weight * itemData.quantity))
+        {
+            Debug.Log("Not enough inventory capacity to carry items from wholesaler.");
+            return false;
+        }
+        return true;
+    }
+
+    public void BuyFromWholesaler(Wholesaler wholesaler, ItemData itemData)
+    {
+        // Calculate total cost and deduct gold from player
+        int totalCost = itemData.itemSO.baseValue * itemData.quantity;
+        PlayerInventory.Instance.RemoveGold(totalCost);
+        PlayerInventory.Instance.AddItem(itemData.itemSO, itemData.quantity);
+        // Remove item from wholesaler's inventory
+        wholesaler.RemoveItem(itemData);
+        Debug.Log($"Bought {itemData.quantity} of {itemData.itemSO.itemName} from wholesaler for {totalCost} gold.");
+    }
+    #endregion
 
     public Shop GetShop(string id)
     {

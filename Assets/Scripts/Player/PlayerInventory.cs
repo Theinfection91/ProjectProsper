@@ -1,3 +1,5 @@
+using Assets.Scripts.Item;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
@@ -7,6 +9,8 @@ public class PlayerInventory : MonoBehaviour
     public int gold = 0;
     public float maxInventoryWeight = 100f;
     public float currentInventoryWeight = 0f;
+
+    public List<ItemData> items = new();
 
     private void Awake()
     {
@@ -46,5 +50,26 @@ public class PlayerInventory : MonoBehaviour
     {
         // Gold may go negative
         gold -= amount;
+    }
+
+    public bool CanCarryItemWeight(float weight)
+    {
+        return (currentInventoryWeight + weight) <= maxInventoryWeight;
+    }
+
+    public void AddItem(ItemSO item, int quantity)
+    {
+        // Check if item already exists in inventory
+        ItemData existingItem = items.Find(i => i.itemSO == item);
+        if (existingItem != null)
+        {
+            existingItem.quantity += quantity;
+        }
+        else
+        {
+            items.Add(new ItemData { itemSO = item, quantity = quantity });
+        }
+        currentInventoryWeight += item.weight * quantity;
+        Debug.Log($"Added {quantity} x {item.itemName} to inventory.");
     }
 }

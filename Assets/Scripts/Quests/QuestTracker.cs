@@ -9,9 +9,8 @@ namespace Assets.Scripts.Quests
         private static readonly Dictionary<QuestSO, HashSet<int>> _questProgress = new();
         private static readonly HashSet<QuestSO> _completedQuests = new();
 
-        public static void OnTalkedToNPC(string npcID)
+        public static void OnTalkedToNPC(NPCSO npc)
         {
-            // TODO For each active quest, check if there is a step that involves talking to this NPC's ID
             foreach (var quest in _questProgress.Keys)
             {
                 foreach (var step in quest.questSteps)
@@ -20,21 +19,19 @@ namespace Assets.Scripts.Quests
                     {
                         foreach (var objective in step.objectives)
                         {
-                            if (objective is TalkQuestObjectiveSO talkObjective && talkObjective.npcID == npcID)
+                            if (objective is TalkQuestObjectiveSO talkObjective && talkObjective.npcToTalkTo == npc)
                             {
                                 CompleteStep(quest, step.stepIndex);
-                                // TODO Notification of step completion sent to UI that needs to be built
-                                if (IsQuestComplete(quest))
-                                {
-                                    CompleteQuest(quest);
-                                    // TODO Notification of quest completion sent to UI that needs to be built
+                                    if (IsQuestComplete(quest))
+                                    {
+                                        CompleteQuest(quest);
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
 
         public static void CompleteStep(QuestSO quest, int stepIndex)
         {
