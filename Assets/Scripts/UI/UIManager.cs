@@ -91,6 +91,39 @@ public class UIManager : MonoBehaviour
         clockText.text = TimeManager.Instance.GetFormattedTime();
     }
 
+    public void OnTimeControlButtonClicked(int buttonNumber)
+    {
+        switch (buttonNumber)
+        {
+            case 0:
+                TimeManager.Instance.currentSpeed = TimeManager.TimeSpeed.Paused;
+                if (GameManager.IsGamePaused == false)
+                {
+                    GameManager.Instance.PauseGame();
+                }
+                break;
+            case 1:
+                TimeManager.Instance.currentSpeed = TimeManager.TimeSpeed.Normal;
+                break;
+            case 2:
+                TimeManager.Instance.currentSpeed = TimeManager.TimeSpeed.Fast;
+                break;
+            case 3:
+                TimeManager.Instance.currentSpeed = TimeManager.TimeSpeed.Faster;
+                break;
+            case 4:
+                TimeManager.Instance.currentSpeed = TimeManager.TimeSpeed.Ultra;
+                break;
+            default:
+                TimeManager.Instance.currentSpeed = TimeManager.TimeSpeed.Normal;
+                break;
+        }
+        if (buttonNumber != 0 && GameManager.IsGamePaused)
+        {
+            GameManager.Instance.ResumeGame();
+        }
+    }
+
     public void UpdateGoldAmount()
     {
         goldAmountText.text = $"{PlayerInventory.Instance.gold}";

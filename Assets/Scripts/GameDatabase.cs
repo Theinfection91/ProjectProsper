@@ -8,7 +8,7 @@ public class GameDatabase : ScriptableObject
     [Header("All Game Data")]
     public List<WorkerTypeSO> allWorkers = new();
     public List<ShopTypeSO> allShops = new();
-    public List<ItemTypeSO> allItems = new();
+    public List<ItemSO> allItems = new();
 
     #region Worker Queries
     public WorkerTypeSO GetWorkerByName(string name)
@@ -45,17 +45,17 @@ public class GameDatabase : ScriptableObject
     #endregion
 
     #region Item Queries
-    public ItemTypeSO GetItemByName(string name)
+    public ItemSO GetItemByName(string name)
     {
         return allItems.FirstOrDefault(i => i.itemName == name);
     }
 
-    public List<ItemTypeSO> GetRawMaterials()
+    public List<ItemSO> GetRawMaterials()
     {
         return allItems.Where(i => i.isRawMaterial).ToList();
     }
 
-    public List<ItemTypeSO> GetCraftableItems()
+    public List<ItemSO> GetCraftableItems()
     {
         return allItems.Where(i => i.isCraftedGood).ToList();
     }

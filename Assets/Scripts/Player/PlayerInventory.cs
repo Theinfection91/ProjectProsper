@@ -5,6 +5,8 @@ public class PlayerInventory : MonoBehaviour
     public static PlayerInventory Instance { get; private set; }
 
     public int gold = 0;
+    public float maxInventoryWeight = 100f;
+    public float currentInventoryWeight = 0f;
 
     private void Awake()
     {
@@ -42,10 +44,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void RemoveGold(int amount)
     {
+        // Gold may go negative
         gold -= amount;
-        if (gold < 0)
-        {
-            gold = 0;
-        }
     }
 }

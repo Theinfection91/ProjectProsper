@@ -26,7 +26,7 @@ public class WorkerTypeSO : ScriptableObject
 
     [Header("For Gatherers: What They Produce")]
     [Tooltip("Leave empty if not a gatherer")]
-    public List<ItemTypeSO> gatherableResources = new();
+    public List<ItemSO> gatherableResources = new();
     public int baseGatherRate;
 
     //[Header("For Service Workers: What Shops They Work In")]

@@ -11,7 +11,7 @@ public class ShopTypeSO : ScriptableObject
     public Sprite shopIcon;
 
     [Header("Inventory")]
-    public List<ItemTypeSO> sellableItems = new();
+    public List<ItemSO> sellableItems = new();
 
     [Header("Worker Info")]
     public WorkerTypeSO serviceWorker;

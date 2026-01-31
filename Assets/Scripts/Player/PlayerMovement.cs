@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public InputAction interactAction;
 
     // Move
-    public float moveSpeed = 5;
+    public float baseMoveSpeed = 5f; // Set this in the inspector or here
     public bool canMove = true;
     public Vector2 _moveVector;
     private bool _isMoving = false;
@@ -87,15 +87,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (canMove)
         {
+            float effectiveSpeed = baseMoveSpeed;
             if (Keyboard.current.leftShiftKey.isPressed)
             {
-                moveSpeed = 15;
+                effectiveSpeed = 15f;
             }
-            else
-            {
-                moveSpeed = 5;
-            }
-            Vector2 position = rb2d.position + moveSpeed * Time.deltaTime * _moveVector;
+            effectiveSpeed *= TimeManager.Instance.GetSpeedMultiplier();
+
+            Vector2 position = rb2d.position + effectiveSpeed * Time.deltaTime * _moveVector;
             rb2d.MovePosition(position);
         }
     }

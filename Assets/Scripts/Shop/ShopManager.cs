@@ -22,12 +22,9 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public string GenerateShopIDNumber()
+    void Start()
     {
-        int totalShops = allShops.Count + 1;
-
-        // "D3" = pad with zeros to 3 digits
-        return totalShops.ToString("D3");
+        TimeManager.Instance.OnEndOfDay += HandleEndOfDay;
     }
 
     public bool CanPlayerOpenNewShop()
@@ -81,6 +78,31 @@ public class ShopManager : MonoBehaviour
         if (allShops.Contains(shop))
         {
             allShops.Remove(shop);
+        }
+    }
+
+    private void HandleEndOfDay()
+    {
+        foreach (Shop shop in allShops)
+        {
+            shop.yesterdayEarnings = shop.earningsToday;
+            shop.earningsToday = 0;
+            // TODO Update earning history
+            //int dayIndex = TimeManager.Instance.GetCurrentDayIndex();
+            //shop.previousEarningHistory[dayIndex] = shop.yesterdayEarnings;
+            DeductDailyRent(shop);
+        }
+    }
+    
+    public void DeductDailyRent(Shop shop)
+    {
+        if (shop == null) return;
+
+        // Deduct the daily rent from the player's gold if they own the shop
+        if (shop.ownership == ShopOwnership.Player)
+        {
+            PlayerInventory.Instance.RemoveGold(shop.dailyRent);
+            Debug.Log($"Deducted {shop.dailyRent} gold for daily rent of shop {shop.name}.");
         }
     }
 
