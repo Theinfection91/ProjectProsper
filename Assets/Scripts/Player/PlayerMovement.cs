@@ -87,7 +87,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (canMove)
         {
-            Vector2 position = rb2d.position + _moveVector * moveSpeed * Time.deltaTime;
+            if (Keyboard.current.leftShiftKey.isPressed)
+            {
+                moveSpeed = 15;
+            }
+            else
+            {
+                moveSpeed = 5;
+            }
+            Vector2 position = rb2d.position + moveSpeed * Time.deltaTime * _moveVector;
             rb2d.MovePosition(position);
         }
     }
