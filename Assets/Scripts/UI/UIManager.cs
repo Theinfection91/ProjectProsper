@@ -305,7 +305,7 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.ResumeGame();
     }
 
-    public void PopulateWholesaleItems(List<ItemData> itemsForSale)
+    public void PopulateWholesaleItems(Wholesaler wholesaler)
     {
         // Clear existing slots
         foreach (Transform child in itemForSaleSlotPanel.transform)
@@ -313,13 +313,13 @@ public class UIManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         // Populate with items for sale
-        foreach (var item in itemsForSale)
+        foreach (var item in wholesaler.itemsForSale)
         {
             GameObject slot = Instantiate(itemForSaleSlot, itemForSaleSlotPanel.transform);
             ItemForSaleSlot slotComponent = slot.GetComponent<ItemForSaleSlot>();
             if (slotComponent != null)
             {
-                slotComponent.SetupItemForSale(item);
+                slotComponent.SetupItemForSale(item, wholesaler);
             }
         }
     }

@@ -10,7 +10,7 @@ public class Wholesaler : NPC
     public override void Interact()
     {
         Debug.Log("Welcome to my wholesale store! Take a look at our bulk deals.");
-        UIManager.Instance.PopulateWholesaleItems(itemsForSale);
+        UIManager.Instance.PopulateWholesaleItems(this);
         UIManager.Instance.OpenWholesaleUI();
     }
 
