@@ -10,6 +10,11 @@ public class UIManager : MonoBehaviour
     // Reference to the currently opened canvas
     public Canvas currentOpenedCanvas;
 
+    [Header("Dialogue UI")]
+    public Canvas dialogueCanvas;
+    public TMP_Text speakerNameText;
+    public TMP_Text dialogueContentText;
+
     // Banker UI
     [Header("Banker UI")]
     public Canvas bankUICanvas;
@@ -64,6 +69,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        dialogueCanvas.enabled = false;
         if (bankUICanvas != null)
         {
             bankUICanvas.enabled = false;

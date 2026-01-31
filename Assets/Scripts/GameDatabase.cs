@@ -9,6 +9,7 @@ public class GameDatabase : ScriptableObject
     public List<WorkerTypeSO> allWorkers = new();
     public List<ShopTypeSO> allShops = new();
     public List<ItemSO> allItems = new();
+    public List<QuestSO> allQuests = new();
 
     #region Worker Queries
     public WorkerTypeSO GetWorkerByName(string name)
@@ -58,6 +59,13 @@ public class GameDatabase : ScriptableObject
     public List<ItemSO> GetCraftableItems()
     {
         return allItems.Where(i => i.isCraftedGood).ToList();
+    }
+    #endregion
+
+    #region Quest Queries
+    public QuestSO GetQuestByID(string questID)
+    {
+        return allQuests.FirstOrDefault(q => q.questID == questID);
     }
     #endregion
 }

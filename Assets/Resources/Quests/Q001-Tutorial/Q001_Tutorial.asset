@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd7af86aa5a630645a1aff42b66a2b4f, type: 3}
+  m_Name: Q001_Tutorial
+  m_EditorClassIdentifier: Assembly-CSharp::QuestSO
+  questID: Q001
+  questName: Tutorial
+  description: Apply for a small business permit, acquire funding from the bank,
+    rent a street vendor stall, buy generic resell items from wholesale, display
+    item to sell at stall, profit.
+  questSteps:
+  - {fileID: 11400000, guid: 47a86638146280241a33771f410b980b, type: 2}
