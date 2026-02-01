@@ -72,4 +72,19 @@ public class PlayerInventory : MonoBehaviour
         currentInventoryWeight += item.weight * quantity;
         Debug.Log($"Added {quantity} x {item.itemName} to inventory.");
     }
+
+    public void RemoveItem(ItemSO item, int quantity)
+    {
+        ItemData existingItem = items.Find(i => i.itemSO == item);
+        if (existingItem != null)
+        {
+            existingItem.quantity -= quantity;
+            if (existingItem.quantity <= 0)
+            {
+                items.Remove(existingItem);
+            }
+            currentInventoryWeight -= item.weight * quantity;
+            Debug.Log($"Removed {quantity} x {item.itemName} from inventory.");
+        }
+    }
 }

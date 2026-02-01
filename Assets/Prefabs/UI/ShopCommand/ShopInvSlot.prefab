@@ -65,7 +65,7 @@ GameObject:
   - component: {fileID: 4982977651810498930}
   - component: {fileID: 2510965315370834520}
   m_Layer: 0
-  m_Name: AddAllButton
+  m_Name: ListAllButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,9 +269,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShopInvSlot
   itemNameText: {fileID: 1329002982573254971}
   itemQuantityText: {fileID: 8007361394193289478}
+  listOneButton: {fileID: 0}
+  listAllButton: {fileID: 0}
+  listXButton: {fileID: 0}
+  listXInput: {fileID: 0}
   itemData:
     itemSO: {fileID: 0}
     quantity: 0
+  thisShop:
+    id: 
+    name: 
+    shopType: {fileID: 0}
+    size: 0
+    ownership: 0
+    ownerName: 
+    dailyRent: 0
+    daysRented: 0
+    footTrafficScore: 0
+    stockroomItems: []
+    itemsForSale: []
+    earningsToday: 0
+    yesterdayEarnings: 0
+    totalEarnings: 0
+    currentItemSlots: 0
+    maxItemSlots: 0
+    maxWeightLoad: 0
+    currentWeightLoad: 0
+    isOpenForBusiness: 0
+    isWithinOperatingHours: 0
 --- !u!1 &3793942145992322254
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +447,7 @@ GameObject:
   - component: {fileID: 5110591839459330944}
   - component: {fileID: 3461141225086247670}
   m_Layer: 0
-  m_Name: InputField (TMP)
+  m_Name: ListXInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -600,7 +625,7 @@ GameObject:
   - component: {fileID: 6219931502080559318}
   - component: {fileID: 8274219251839686971}
   m_Layer: 0
-  m_Name: AddOneButton
+  m_Name: ListOneButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -707,7 +732,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6219931502080559318}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1660881069667061899}
+        m_TargetAssemblyTypeName: ShopInvSlot, Assembly-CSharp
+        m_MethodName: OnListOneButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7563078647246228562
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,7 +947,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add All
+  m_text: List All
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
@@ -1132,7 +1169,7 @@ GameObject:
   - component: {fileID: 1372852321383900600}
   - component: {fileID: 1136140119487352860}
   m_Layer: 0
-  m_Name: AddXButton
+  m_Name: ListXButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1305,7 +1342,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Add 1
+  m_text: List 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 125cb55b44b24c4393181402bc6200e6, type: 2}

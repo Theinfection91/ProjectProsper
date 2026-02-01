@@ -16,9 +16,11 @@ public class Shop
     public string ownerName;
     public int dailyRent;
     public int daysRented;
+    public float footTrafficScore = 1.0f;
 
     // Inventory
     public List<ItemData> stockroomItems = new();
+    public List<ItemData> itemsForSale = new();
 
     // Workers
     public List<Worker> employedWorkers = new();
@@ -34,7 +36,7 @@ public class Shop
     public int maxItemSlots = 0;
     public float maxWeightLoad = 200.0f; // Default max weight load, double the player carrying capacity
     public float currentWeightLoad = 0.0f;
-    public float footTrafficScore = 1.0f;
+
 
     // States
     public bool isOpenForBusiness = false;
@@ -60,5 +62,82 @@ public class Shop
     public void HireWorker(Worker worker)
     {
         employedWorkers.Add(worker);
+    }
+
+    public void FireWorker(Worker worker)
+    {
+        employedWorkers.Remove(worker);
+    }
+
+    public bool HasRoomForItemWeight(ItemData itemData)
+    {
+        // Check if the shop has room for the item based on its weight and current load
+        float incomingItemWeight = itemData.itemSO.weight * itemData.quantity;
+        if (currentWeightLoad + incomingItemWeight <= maxWeightLoad)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void AddItem(ItemData itemData)
+    {
+        // Check if item already exists in stockroom
+        ItemData existingItem = stockroomItems.Find(i => i.itemSO == itemData.itemSO);
+        if (existingItem != null)
+        {
+            // If it exists, update the quantity
+            existingItem.quantity += itemData.quantity;
+        }
+        else
+        {
+            // If it doesn't exist, add it to the stockroom
+            stockroomItems.Add(itemData);
+        }
+        currentWeightLoad += itemData.itemSO.weight * itemData.quantity;
+    }
+
+    public void RemoveItem(ItemData itemData)
+    {
+        ItemData existingItem = stockroomItems.Find(i => i.itemSO == itemData.itemSO);
+        if (existingItem != null)
+        {
+            if (existingItem.quantity >= itemData.quantity)
+            {
+                existingItem.quantity -= itemData.quantity;
+                currentWeightLoad -= itemData.itemSO.weight * itemData.quantity;
+                if (existingItem.quantity == 0)
+                {
+                    stockroomItems.Remove(existingItem);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Attempted to remove more items than available in stockroom.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Attempted to remove an item that does not exist in stockroom.");
+        }
+    }
+
+    public void ListItemForSale(ItemData itemData)
+    {
+        // Move item from stockroom to items for sale
+        RemoveItem(itemData);
+        ItemData existingItem = itemsForSale.Find(i => i.itemSO == itemData.itemSO);
+        if (existingItem != null)
+        {
+            existingItem.quantity += itemData.quantity;
+            if (existingItem.quantity <= 0)
+            {
+                itemsForSale.Remove(existingItem);
+            }
+        }
+        else if (itemData.quantity > 0)
+        {
+            itemsForSale.Add(itemData);
+        }
     }
 }

@@ -583,7 +583,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6993731579166634565}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4284505958319183313}
+        m_TargetAssemblyTypeName: PlayerInvSlot, Assembly-CSharp
+        m_MethodName: OnAddOneButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5288968252838592779
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,7 +609,7 @@ GameObject:
   - component: {fileID: 3907531380733098987}
   - component: {fileID: 2209501188767278476}
   m_Layer: 0
-  m_Name: InputField (TMP)
+  m_Name: AddXInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -858,9 +870,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInvSlot
   itemNameText: {fileID: 5148079953039408718}
   itemQuantityText: {fileID: 4286396225003662113}
+  addOneButton: {fileID: 3718779766045063564}
+  addAllButton: {fileID: 3413228079186665649}
+  addXButton: {fileID: 3793966037634271110}
+  addXInput: {fileID: 2209501188767278476}
   itemData:
     itemSO: {fileID: 0}
     quantity: 0
+  targetShop:
+    id: 
+    name: 
+    shopType: {fileID: 0}
+    size: 0
+    ownership: 0
+    ownerName: 
+    dailyRent: 0
+    daysRented: 0
+    footTrafficScore: 0
+    stockroomItems: []
+    itemsForSale: []
+    earningsToday: 0
+    yesterdayEarnings: 0
+    totalEarnings: 0
+    currentItemSlots: 0
+    maxItemSlots: 0
+    maxWeightLoad: 0
+    currentWeightLoad: 0
+    isOpenForBusiness: 0
+    isWithinOperatingHours: 0
 --- !u!1 &5560974137722591060
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,7 +1429,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4003187979361184131}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4284505958319183313}
+        m_TargetAssemblyTypeName: PlayerInvSlot, Assembly-CSharp
+        m_MethodName: OnAddXButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6451616034243320200
 GameObject:
   m_ObjectHideFlags: 0
@@ -1671,4 +1720,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3861188786469337526}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4284505958319183313}
+        m_TargetAssemblyTypeName: PlayerInvSlot, Assembly-CSharp
+        m_MethodName: OnAddAllButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

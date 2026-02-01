@@ -269,9 +269,11 @@ public class UIManager : MonoBehaviour
         CloseCurrentUIWindow();
     }
 
-    public void PopulateStallShopCommand(Shop shop)
+    public void PopulateStallShopCommand(ShopSign shopSign)
     {
         if (shopCommandCanvas == null) return;
+        currentShopSign = shopSign;
+        Shop shop = ShopManager.Instance.GetShop(shopSign.id);
         shopNameText.text = shop.name;
         todaysEarningsText.text = $"Today's Earnings: {shop.earningsToday}";
         yesterdayEarningsText.text = $"Yesterday's Earnings: {shop.yesterdayEarnings}";
@@ -303,6 +305,7 @@ public class UIManager : MonoBehaviour
         shopInvMainPanel.gameObject.SetActive(true);
         playerInvMainPanel.gameObject.SetActive(false);
         PopulateShopInventorySlots();
+        PopulateForSaleInventorySlots();
     }
 
     public void ShowPlayerInventoryPanel()
@@ -311,6 +314,7 @@ public class UIManager : MonoBehaviour
         shopInvMainPanel.gameObject.SetActive(false);
         playerInvMainPanel.gameObject.SetActive(true);
         PopulatePlayerInventorySlots();
+        PopulateForSaleInventorySlots();
     }
 
     public void OnAddItemsFromInventoryButtonClicked()
@@ -366,7 +370,10 @@ public class UIManager : MonoBehaviour
         }
 
         // Get the player's inventory items
-        var inventory = PlayerInventory.Instance.items; // Adjust property name as needed
+        var inventory = PlayerInventory.Instance.items;
+
+        // Get target shop
+        Shop shop = ShopManager.Instance.GetShop(currentShopSign.id);
 
         foreach (var item in inventory)
         {
@@ -374,7 +381,7 @@ public class UIManager : MonoBehaviour
             var slotComponent = slot.GetComponent<PlayerInvSlot>(); // Adjust script name as needed
             if (slotComponent != null)
             {
-                slotComponent.Setup(item);
+                slotComponent.Setup(item, shop);
             }
         }
     }
@@ -397,7 +404,32 @@ public class UIManager : MonoBehaviour
             var slotComponent = slot.GetComponent<ShopInvSlot>(); // Adjust script name as needed
             if (slotComponent != null)
             {
-                slotComponent.Setup(item);
+                slotComponent.Setup(item, currentShop);
+            }
+        }
+    }
+
+    public void PopulateForSaleInventorySlots()
+    {
+        // Clear existing slots
+        foreach (Transform child in forSaleSlotPanel)
+        {
+            Destroy(child.gameObject);
+        }
+        // Get the shop's items for sale
+        Shop currentShop = ShopManager.Instance.GetShop(currentShopSign.id);
+        if (currentShop == null) return;
+        var inventory = currentShop.itemsForSale;
+        foreach (var item in inventory)
+        {
+            if (item.quantity > 0)
+            {
+                GameObject slot = Instantiate(forSaleSlot, forSaleSlotPanel);
+                var slotComponent = slot.GetComponent<ForSaleSlot>();
+                if (slotComponent != null)
+                {
+                    slotComponent.Setup(item, currentShop);
+                }
             }
         }
     }

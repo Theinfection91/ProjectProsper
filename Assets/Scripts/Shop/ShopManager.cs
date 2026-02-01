@@ -147,6 +147,11 @@ public class ShopManager : MonoBehaviour
     }
     #endregion
 
+    #region Shop Stock Management (Player Shops)
+
+    #endregion
+
+    #region Getters
     public Shop GetShop(string id)
     {
         return allShops.Find(shop => shop.id == id);
@@ -171,4 +176,5 @@ public class ShopManager : MonoBehaviour
     {
         return allShops.FindAll(shop => shop.ownership == ShopOwnership.Unclaimed);
     }
+    #endregion
 }

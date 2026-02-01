@@ -38,7 +38,7 @@ public class ShopSign : MonoBehaviour, IInteractable
                 if (size == ShopSize.StreetVendorStall)
                 {
                     Shop stall = ShopManager.Instance.GetShop(claimedShop.id);
-                    UIManager.Instance.PopulateStallShopCommand(stall);
+                    UIManager.Instance.PopulateStallShopCommand(this);
                     UIManager.Instance.OpenStallShopCommand();
                 }
                 return;
