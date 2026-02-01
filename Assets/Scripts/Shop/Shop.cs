@@ -1,3 +1,4 @@
+using Assets.Scripts.Item;
 using Assets.Scripts.Shop;
 using Assets.Scripts.Worker;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ public class Shop
     public int dailyRent;
     public int daysRented;
 
+    // Inventory
+    public List<ItemData> stockroomItems = new();
+
     // Workers
     public List<Worker> employedWorkers = new();
 
@@ -26,8 +30,10 @@ public class Shop
     public Dictionary<int, int> previousEarningHistory = new(); // Key: Day number, Value: Earnings
 
     // Resell Stall Specific
-    public int currentItemSlots = 0;
+    public int currentItemSlots = 0; // Phasing out hardcoded slots in favor of dynamic item management with weight
     public int maxItemSlots = 0;
+    public float maxWeightLoad = 200.0f; // Default max weight load, double the player carrying capacity
+    public float currentWeightLoad = 0.0f;
     public float footTrafficScore = 1.0f;
 
     // States

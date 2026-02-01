@@ -36,9 +36,15 @@ public class UIManager : MonoBehaviour
     // ShopCommand (Vendor Stall) UI
     [Header("Shop Command (Vendor Stall) UI")]
     public Canvas shopCommandCanvas;
-    public TMP_Text shopNameText;
+    public GameObject forSaleSlot;
+    public Transform forSaleSlotPanel;
+    public GameObject playerInvSlot;
+    public Transform playerInvMainPanel;
+    public Transform playerInvSlotPanel;
     public GameObject shopInvSlot;
-    public Image shopInvSlotPanel;
+    public Transform shopInvMainPanel;
+    public Transform shopInvSlotPanel;
+    public TMP_Text shopNameText;
     public TMP_Text todaysEarningsText;
     public TMP_Text yesterdayEarningsText;
     public TMP_Text totalEarningsText;
@@ -59,7 +65,7 @@ public class UIManager : MonoBehaviour
     [Header("Wholesale UI")]
     public Canvas wholesaleCanvas;
     public GameObject itemForSaleSlot;
-    public Image itemForSaleSlotPanel;
+    public Transform itemForSaleSlotPanel;
 
     private void Awake()
     {
@@ -271,23 +277,50 @@ public class UIManager : MonoBehaviour
         yesterdayEarningsText.text = $"Yesterday's Earnings: {shop.yesterdayEarnings}";
         totalEarningsText.text = $"Total Earnings: {shop.totalEarnings}";
         // Clear existing slots
-        foreach (Transform child in shopInvSlotPanel.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        // Populate with current slot amount
-        for (int i = 0; i < shop.currentItemSlots; i++)
-        {
-            GameObject slot = Instantiate(shopInvSlot, shopInvSlotPanel.transform);
-        }
+        //foreach (Transform child in shopInvSlotPanel.transform)
+        //{
+        //    Destroy(child.gameObject);
+        //}
+        //// Populate with current slot amount
+        //for (int i = 0; i < shop.currentItemSlots; i++)
+        //{
+        //    GameObject slot = Instantiate(shopInvSlot, shopInvSlotPanel.transform);
+        //}
     }
 
     public void OpenStallShopCommand()
     {
         if (shopCommandCanvas == null) return;
         shopCommandCanvas.enabled = true;
+        ShowShopInventoryPanel();
         currentOpenedCanvas = shopCommandCanvas;
         GameManager.Instance.PauseGame();
+    }
+
+    public void ShowShopInventoryPanel()
+    {
+        if (shopCommandCanvas == null) return;
+        shopInvMainPanel.gameObject.SetActive(true);
+        playerInvMainPanel.gameObject.SetActive(false);
+        PopulateShopInventorySlots();
+    }
+
+    public void ShowPlayerInventoryPanel()
+    {
+        if (shopCommandCanvas == null) return;
+        shopInvMainPanel.gameObject.SetActive(false);
+        playerInvMainPanel.gameObject.SetActive(true);
+        PopulatePlayerInventorySlots();
+    }
+
+    public void OnAddItemsFromInventoryButtonClicked()
+    {
+        ShowPlayerInventoryPanel();
+    }
+
+    public void OnClosePlayerInventoryButtonClicked()
+    {
+        ShowShopInventoryPanel();
     }
 
     public void OpenWholesaleUI()
@@ -316,10 +349,55 @@ public class UIManager : MonoBehaviour
         foreach (var item in wholesaler.itemsForSale)
         {
             GameObject slot = Instantiate(itemForSaleSlot, itemForSaleSlotPanel.transform);
-            ItemForSaleSlot slotComponent = slot.GetComponent<ItemForSaleSlot>();
+            WholesaleItemForSaleSlot slotComponent = slot.GetComponent<WholesaleItemForSaleSlot>();
             if (slotComponent != null)
             {
                 slotComponent.SetupItemForSale(item, wholesaler);
+            }
+        }
+    }
+
+    public void PopulatePlayerInventorySlots()
+    {
+        // Clear existing slots
+        foreach (Transform child in playerInvSlotPanel)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Get the player's inventory items
+        var inventory = PlayerInventory.Instance.items; // Adjust property name as needed
+
+        foreach (var item in inventory)
+        {
+            GameObject slot = Instantiate(playerInvSlot, playerInvSlotPanel);
+            var slotComponent = slot.GetComponent<PlayerInvSlot>(); // Adjust script name as needed
+            if (slotComponent != null)
+            {
+                slotComponent.Setup(item);
+            }
+        }
+    }
+
+    public void PopulateShopInventorySlots()
+    {
+        // Clear existing slots
+        foreach (Transform child in shopInvSlotPanel)
+        {
+            Destroy(child.gameObject);
+        }
+        // Get the shop's inventory items
+        // Assuming you have a reference to the current shop
+        Shop currentShop = ShopManager.Instance.GetShop(currentShopSign.id); // Adjust method as needed
+        if (currentShop == null) return;
+        var inventory = currentShop.stockroomItems; // Adjust property name as needed
+        foreach (var item in inventory)
+        {
+            GameObject slot = Instantiate(shopInvSlot, shopInvSlotPanel);
+            var slotComponent = slot.GetComponent<ShopInvSlot>(); // Adjust script name as needed
+            if (slotComponent != null)
+            {
+                slotComponent.Setup(item);
             }
         }
     }

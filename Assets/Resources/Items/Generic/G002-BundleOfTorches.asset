@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: G002-BundleOfTorches
   m_EditorClassIdentifier: Assembly-CSharp::ItemSO
   id: G002
-  itemName: BundleOfTorches
+  itemName: Bundle Of Torches
   description: Torches conveniently bundled together for ease of transport and sale.
   itemSprite: {fileID: 0}
   baseValue: 50

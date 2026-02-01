@@ -128,12 +128,21 @@ public class ShopManager : MonoBehaviour
 
     public void BuyFromWholesaler(Wholesaler wholesaler, ItemData itemData)
     {
-        // Calculate total cost and deduct gold from player
         int totalCost = itemData.itemSO.baseValue * itemData.quantity;
         PlayerInventory.Instance.RemoveGold(totalCost);
         PlayerInventory.Instance.AddItem(itemData.itemSO, itemData.quantity);
-        // Remove item from wholesaler's inventory
-        wholesaler.RemoveItem(itemData);
+
+        // Find the actual item in the wholesaler's list and decrement its quantity
+        var wholesalerItem = wholesaler.itemsForSale.Find(i => i.itemSO == itemData.itemSO);
+        if (wholesalerItem != null)
+        {
+            wholesalerItem.quantity -= itemData.quantity;
+            if (wholesalerItem.quantity <= 0)
+            {
+                wholesaler.RemoveItem(wholesalerItem);
+            }
+        }
+
         Debug.Log($"Bought {itemData.quantity} of {itemData.itemSO.itemName} from wholesaler for {totalCost} gold.");
     }
     #endregion
