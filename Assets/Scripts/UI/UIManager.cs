@@ -422,7 +422,7 @@ public class UIManager : MonoBehaviour
         var inventory = currentShop.itemsForSale;
         foreach (var item in inventory)
         {
-            if (item.quantity > 0)
+            if (item.itemData.quantity > 0)
             {
                 GameObject slot = Instantiate(forSaleSlot, forSaleSlotPanel);
                 var slotComponent = slot.GetComponent<ForSaleSlot>();

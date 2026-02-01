@@ -63,6 +63,7 @@ public class ShopManager : MonoBehaviour
         }
 
         RegisterShop(newShop);
+        CustomerManager.Instance.RegisterShopForCustomers(newShop);
         return newShop;
     }
 

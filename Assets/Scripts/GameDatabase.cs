@@ -60,6 +60,11 @@ public class GameDatabase : ScriptableObject
     {
         return allItems.Where(i => i.isCraftedGood).ToList();
     }
+
+    public List<ItemSO> GetAllItems()
+    {
+        return allItems;
+    }
     #endregion
 
     #region Quest Queries

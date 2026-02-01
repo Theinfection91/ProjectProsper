@@ -20,7 +20,7 @@ public class Shop
 
     // Inventory
     public List<ItemData> stockroomItems = new();
-    public List<ItemData> itemsForSale = new();
+    public List<ShopItemForSale> itemsForSale = new();
 
     // Workers
     public List<Worker> employedWorkers = new();
@@ -126,18 +126,67 @@ public class Shop
     {
         // Move item from stockroom to items for sale
         RemoveItem(itemData);
-        ItemData existingItem = itemsForSale.Find(i => i.itemSO == itemData.itemSO);
+        ShopItemForSale existingItem = itemsForSale.Find(i => i.itemData.itemSO == itemData.itemSO);
         if (existingItem != null)
         {
-            existingItem.quantity += itemData.quantity;
-            if (existingItem.quantity <= 0)
+            existingItem.itemData.quantity += itemData.quantity;
+            if (existingItem.itemData.quantity <= 0)
             {
                 itemsForSale.Remove(existingItem);
             }
         }
         else if (itemData.quantity > 0)
         {
-            itemsForSale.Add(itemData);
+            itemsForSale.Add(new ShopItemForSale
+            {
+                itemData = itemData, salePrice = itemData.itemSO.baseValue
+            });
         }
+    }
+
+    public float CalculatePurchaseChance(ShopItemForSale shopItemForSale)
+    {
+        // Get demand level from DemandManager
+        float demandModifier = DemandManager.Instance.GetDemandLevel(shopItemForSale.itemData.itemSO) / 100f;
+
+        // Calculate price fairness (how reasonable the price is)
+        float priceRatio = shopItemForSale.salePrice / (float)shopItemForSale.itemData.itemSO.baseValue;
+        float priceFairness;
+
+        if (priceRatio <= 1.0f)
+        {
+            // Selling at or below base value - great deal
+            priceFairness = 1.2f;
+        }
+        else if (priceRatio <= 1.5f)
+        {
+            // Reasonable markup (100-150%)
+            priceFairness = 1.0f;
+        }
+        else if (priceRatio <= 2.0f)
+        {
+            // High markup (150-200%)
+            priceFairness = 0.6f;
+        }
+        else
+        {
+            // Overpriced (>200%)
+            priceFairness = 0.3f / priceRatio; // Diminishing returns
+        }
+
+        // Get worker skill modifier
+        //float workerModifier = WorkerManager.Instance.GetAverageSalesWorkerSkill(this);
+
+        // Calculate base chance with weighted factors
+        float baseChance =
+            (demandModifier * 0.5f) +        // 50% from demand
+            (priceFairness * 0.3f); //+         // 30% from pricing
+            //(workerModifier * 0.2f);         // 20% from worker skill
+
+        // Foot traffic affects spawn rate, not purchase chance
+        // But you could add a small bonus for premium locations if desired
+        // baseChance += (footTrafficScore - 1.0f) * 0.05f; // Optional
+
+        return Mathf.Clamp01(baseChance);
     }
 }
