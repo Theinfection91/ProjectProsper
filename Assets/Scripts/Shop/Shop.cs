@@ -22,6 +22,9 @@ public class Shop
     public List<ItemData> stockroomItems = new();
     public List<ShopItemForSale> itemsForSale = new();
 
+    // Schedule
+    [SerializeField] public ShopSchedule shopSchedule = new();
+
     // Workers
     public List<Worker> employedWorkers = new();
 

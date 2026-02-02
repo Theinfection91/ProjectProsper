@@ -64,6 +64,7 @@ public class ForSaleSlot : MonoBehaviour
 
         // Set Price Panel is active by default
         setPriceInput.text = item.salePrice.ToString();
+        UpdatePriceFairness(item.salePrice);
     }
 
     public void OnSetPriceInputEditEnd(string newValue)

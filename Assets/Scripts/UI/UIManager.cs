@@ -36,6 +36,9 @@ public class UIManager : MonoBehaviour
     // ShopCommand (Vendor Stall) UI
     [Header("Shop Command (Vendor Stall) UI")]
     public Canvas shopCommandCanvas;
+    public GameObject scheduleBar;
+    public Transform scheduleBarPanel;
+    public ScheduleBar[] scheduleBars = new ScheduleBar[7];
     public GameObject forSaleSlot;
     public Transform forSaleSlotPanel;
     public GameObject playerInvSlot;
@@ -278,16 +281,7 @@ public class UIManager : MonoBehaviour
         todaysEarningsText.text = $"Today's Earnings: {shop.earningsToday}";
         yesterdayEarningsText.text = $"Yesterday's Earnings: {shop.yesterdayEarnings}";
         totalEarningsText.text = $"Total Earnings: {shop.totalEarnings}";
-        // Clear existing slots
-        //foreach (Transform child in shopInvSlotPanel.transform)
-        //{
-        //    Destroy(child.gameObject);
-        //}
-        //// Populate with current slot amount
-        //for (int i = 0; i < shop.currentItemSlots; i++)
-        //{
-        //    GameObject slot = Instantiate(shopInvSlot, shopInvSlotPanel.transform);
-        //}
+        PopulateScheduleBars(shop);
     }
 
     public void OpenStallShopCommand()
@@ -357,6 +351,29 @@ public class UIManager : MonoBehaviour
             if (slotComponent != null)
             {
                 slotComponent.SetupItemForSale(item, wholesaler);
+            }
+        }
+    }
+
+    public void PopulateScheduleBars(Shop shop)
+    {
+        if (scheduleBarPanel == null || scheduleBar == null) return;
+
+        // Clear existing bars
+        foreach (Transform child in scheduleBarPanel)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Create 7 schedule bars (Monday-Sunday)
+        for (int i = 0; i < 7; i++)
+        {
+            GameObject barObj = Instantiate(scheduleBar, scheduleBarPanel);
+            ScheduleBar bar = barObj.GetComponent<ScheduleBar>();
+            if (bar != null)
+            {
+                bar.Setup(i, shop);
+                scheduleBars[i] = bar;
             }
         }
     }

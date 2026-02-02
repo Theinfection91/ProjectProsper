@@ -9,6 +9,7 @@ public class TimeManager : MonoBehaviour
     public float dayLengthInSeconds = 1440f;
     [Range(0f, 1f)] public float currentTimeOfDay = 0.25f;
     public int dayCount = 1;
+    public int currentDayOfWeek = 0; // 0 = Monday, 6 = Sunday
 
     // Time Speed Control
     public enum TimeSpeed { Paused, Normal, Fast, Faster, Ultra }
@@ -18,6 +19,7 @@ public class TimeManager : MonoBehaviour
     public static event Action<int, int> OnMinuteChanged;
     public static event Action<int> OnHourChanged;
     public event Action OnEndOfDay;
+    public event Action<int> OnDayOfWeekChanged; // New event for day changes
 
     // Internal tracking for discrete time changes
     private int lastMinute = -1;
@@ -89,8 +91,10 @@ public class TimeManager : MonoBehaviour
     public void EndOfDay()
     {
         dayCount++;
+        currentDayOfWeek = (currentDayOfWeek + 1) % 7; // Cycle through 0-6
         OnEndOfDay?.Invoke();
-        Debug.Log($"New day! Day: {dayCount}");
+        OnDayOfWeekChanged?.Invoke(currentDayOfWeek);
+        Debug.Log($"New day! Day: {dayCount}, {GetDayOfWeekName()}");
     }
 
     public string GetFormattedTime()
@@ -107,7 +111,50 @@ public class TimeManager : MonoBehaviour
         // Determine AM/PM
         string ampm = hour24 < 12 ? "AM" : "PM";
 
-        string formattedTime = $"Day {TimeManager.Instance.dayCount} - {hour12:D2}:{minute:D2} {ampm}";
+        string formattedTime = $"{GetDayOfWeekName()}, Day {TimeManager.Instance.dayCount} - {hour12:D2}:{minute:D2} {ampm}";
         return formattedTime;
+    }
+
+    public int GetCurrentHour()
+    {
+        float totalHours = currentTimeOfDay * 24f;
+        return Mathf.FloorToInt(totalHours);
+    }
+
+    public int GetCurrentMinute()
+    {
+        float totalHours = currentTimeOfDay * 24f;
+        int currentHour = Mathf.FloorToInt(totalHours);
+        return Mathf.FloorToInt((totalHours - currentHour) * 60f);
+    }
+
+    public string GetDayOfWeekName()
+    {
+        return currentDayOfWeek switch
+        {
+            0 => "Monday",
+            1 => "Tuesday",
+            2 => "Wednesday",
+            3 => "Thursday",
+            4 => "Friday",
+            5 => "Saturday",
+            6 => "Sunday",
+            _ => "Unknown"
+        };
+    }
+
+    public string GetDayOfWeekShortName()
+    {
+        return currentDayOfWeek switch
+        {
+            0 => "Mon",
+            1 => "Tue",
+            2 => "Wed",
+            3 => "Thu",
+            4 => "Fri",
+            5 => "Sat",
+            6 => "Sun",
+            _ => "?"
+        };
     }
 }

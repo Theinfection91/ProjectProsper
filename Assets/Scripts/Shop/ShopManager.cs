@@ -26,6 +26,16 @@ public class ShopManager : MonoBehaviour
     void Start()
     {
         TimeManager.Instance.OnEndOfDay += HandleEndOfDay;
+        TimeManager.OnHourChanged += HandleHourChanged;
+    }
+
+    private void OnDestroy()
+    {
+        if (TimeManager.Instance != null)
+        {
+            TimeManager.Instance.OnEndOfDay -= HandleEndOfDay;
+            TimeManager.OnHourChanged -= HandleHourChanged;
+        }
     }
 
     public bool CanPlayerOpenNewShop()
@@ -45,7 +55,8 @@ public class ShopManager : MonoBehaviour
             dailyRent = rent,
             footTrafficScore = footTraffic,
             ownership = ShopOwnership.Player,
-            ownerName = PlayerCharacter.Instance.name
+            ownerName = PlayerCharacter.Instance.name,
+            shopSchedule = new ShopSchedule()
         };
 
         // For street vendor stalls, set item slots if provided
@@ -80,6 +91,17 @@ public class ShopManager : MonoBehaviour
         if (allShops.Contains(shop))
         {
             allShops.Remove(shop);
+        }
+    }
+
+    private void HandleHourChanged(int currentHour)
+    {
+        foreach (Shop shop in allShops)
+        {
+            if (shop.ownership == ShopOwnership.Player)
+            {
+                shop.isWithinOperatingHours = shop.shopSchedule.IsShopOpenNow(TimeManager.Instance.currentDayOfWeek, currentHour);
+            }
         }
     }
 
