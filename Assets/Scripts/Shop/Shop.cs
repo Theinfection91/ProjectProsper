@@ -38,7 +38,7 @@ public class Shop
     // Resell Stall Specific
     public int currentItemSlots = 0; // Phasing out hardcoded slots in favor of dynamic item management with weight
     public int maxItemSlots = 0;
-    public float maxWeightLoad = 200.0f; // Default max weight load, double the player carrying capacity
+    public float maxWeightLoad = 500.0f; // Default max weight load
     public float currentWeightLoad = 0.0f;
 
 
@@ -86,19 +86,27 @@ public class Shop
 
     public void AddItem(ItemData itemData)
     {
-        // Check if item already exists in stockroom
+        // Add items to the shop's stockroom.
+        // Ensure we don't accidentally keep a reference to a caller-owned ItemData instance.
+        // Merge into an existing stockroom entry if present.
         ItemData existingItem = stockroomItems.Find(i => i.itemSO == itemData.itemSO);
         if (existingItem != null)
         {
-            // If it exists, update the quantity
             existingItem.quantity += itemData.quantity;
         }
         else
         {
-            // If it doesn't exist, add it to the stockroom
-            stockroomItems.Add(itemData);
+            // Add a fresh ItemData record to avoid shared references
+            stockroomItems.Add(new ItemData { itemSO = itemData.itemSO, quantity = itemData.quantity });
         }
+
+        // Update weight
         currentWeightLoad += itemData.itemSO.weight * itemData.quantity;
+
+        // Safety clamp (avoid tiny negative or overflows)
+        if (currentWeightLoad < 0f) currentWeightLoad = 0f;
+
+        Debug.Log($"[Shop] Added {itemData.quantity} x {itemData.itemSO.itemName} to '{name}'. CurrentWeight: {currentWeightLoad:F2}/{maxWeightLoad:F2}");
     }
 
     public void RemoveItem(ItemData itemData)
@@ -109,11 +117,16 @@ public class Shop
             if (existingItem.quantity >= itemData.quantity)
             {
                 existingItem.quantity -= itemData.quantity;
+                // Update weight by actual removed amount
                 currentWeightLoad -= itemData.itemSO.weight * itemData.quantity;
+
                 if (existingItem.quantity == 0)
                 {
                     stockroomItems.Remove(existingItem);
                 }
+
+                // Safety clamp
+                if (currentWeightLoad < 0f) currentWeightLoad = 0f;
             }
             else
             {
@@ -128,24 +141,52 @@ public class Shop
 
     public void ListItemForSale(ItemData itemData)
     {
-        // Move item from stockroom to items for sale
-        RemoveItem(itemData);
-        ShopItemForSale existingItem = itemsForSale.Find(i => i.itemData.itemSO == itemData.itemSO);
-        if (existingItem != null)
+        // Move item from stockroom to items for sale.
+        // IMPORTANT: items for sale are still physically in the shop, so total shop weight should not change.
+        if (itemData == null || itemData.itemSO == null || itemData.quantity <= 0)
         {
-            existingItem.itemData.quantity += itemData.quantity;
-            if (existingItem.itemData.quantity <= 0)
-            {
-                itemsForSale.Remove(existingItem);
-            }
+            Debug.LogWarning("[Shop] Invalid item data provided to ListItemForSale.");
+            return;
         }
-        else if (itemData.quantity > 0)
+
+        // Find matching stockroom entry
+        ItemData stockItem = stockroomItems.Find(i => i.itemSO == itemData.itemSO);
+        if (stockItem == null)
         {
+            Debug.LogWarning($"[Shop] No stockroom entry found for {itemData.itemSO.itemName} when attempting to list for sale.");
+            return;
+        }
+
+        if (stockItem.quantity < itemData.quantity)
+        {
+            Debug.LogWarning($"[Shop] Not enough quantity in stockroom to list {itemData.quantity} x {itemData.itemSO.itemName} for sale.");
+            return;
+        }
+
+        // Decrement stockroom quantity (do NOT change currentWeightLoad here because item remains in shop)
+        stockItem.quantity -= itemData.quantity;
+        if (stockItem.quantity == 0)
+        {
+            stockroomItems.Remove(stockItem);
+        }
+
+        // Add or merge into itemsForSale
+        ShopItemForSale existingForSale = itemsForSale.Find(i => i.itemData.itemSO == itemData.itemSO);
+        if (existingForSale != null)
+        {
+            existingForSale.itemData.quantity += itemData.quantity;
+        }
+        else
+        {
+            // Add a new ShopItemForSale with a new ItemData instance
             itemsForSale.Add(new ShopItemForSale
             {
-                itemData = itemData, salePrice = itemData.itemSO.baseValue
+                itemData = new ItemData { itemSO = itemData.itemSO, quantity = itemData.quantity },
+                salePrice = itemData.itemSO.baseValue
             });
         }
+
+        Debug.Log($"[Shop] Listed {itemData.quantity} x {itemData.itemSO.itemName} for sale in '{name}'. (Stockroom -> ForSale). CurrentWeight remains {currentWeightLoad:F2}/{maxWeightLoad:F2}");
     }
 
     public float CalculatePurchaseChance(ShopItemForSale shopItemForSale)
