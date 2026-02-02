@@ -60,7 +60,8 @@ public class ShopManager : MonoBehaviour
             footTrafficScore = footTraffic,
             ownership = ShopOwnership.Player,
             ownerName = PlayerCharacter.Instance.name,
-            shopSchedule = new ShopSchedule()
+            shopSchedule = new ShopSchedule(),
+            maxInventoryCapacity = maxInventoryCapacity
         };
 
         // For street vendor stalls, set item slots if provided

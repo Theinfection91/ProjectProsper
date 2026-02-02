@@ -62,6 +62,9 @@ public class Customer
         // Deduct from shop inventory
         item.itemData.quantity--;
 
+        // Deduct weight from shop capacity
+        shop.currentInventoryCapacity -= item.itemData.itemSO.weight;
+
         // Add earnings to shop
         shop.earningsToday += item.salePrice;
         shop.totalEarnings += item.salePrice;
