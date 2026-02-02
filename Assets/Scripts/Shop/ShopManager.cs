@@ -136,8 +136,11 @@ public class ShopManager : MonoBehaviour
 
     private void HandleEndOfDay()
     {
+        int totalEarnings = 0;
         foreach (Shop shop in allShops)
         {
+            PlayerInventory.Instance.AddGold(shop.earningsToday);
+            totalEarnings += shop.earningsToday;
             shop.yesterdayEarnings = shop.earningsToday;
             shop.earningsToday = 0;
             // TODO Update earning history
@@ -145,6 +148,18 @@ public class ShopManager : MonoBehaviour
             //shop.previousEarningHistory[dayIndex] = shop.yesterdayEarnings;
             DeductDailyRent(shop);
         }
+        Debug.Log($"[ShopManager] End of Day: Added total earnings of {totalEarnings} gold from all shops to player inventory.");
+        
+        
+        int allShopRent = 0;
+        foreach (Shop shop in allShops)
+        {
+            if (shop.ownership == ShopOwnership.Player)
+            {
+                allShopRent += shop.dailyRent;
+            }
+        }
+        Debug.Log($"Deducted {allShopRent} gold for daily rent from all player-owned shops.");
     }
     
     public void DeductDailyRent(Shop shop)
@@ -155,7 +170,7 @@ public class ShopManager : MonoBehaviour
         if (shop.ownership == ShopOwnership.Player)
         {
             PlayerInventory.Instance.RemoveGold(shop.dailyRent);
-            Debug.Log($"Deducted {shop.dailyRent} gold for daily rent of shop {shop.name}.");
+            
         }
     }
 

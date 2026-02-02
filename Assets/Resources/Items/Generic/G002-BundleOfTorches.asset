@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Torches conveniently bundled together for ease of transport and sale.
   itemSprite: {fileID: 0}
   baseValue: 50
-  weight: 10
+  weight: 5
   stackSize: 5
   isRawMaterial: 0
   isCraftedGood: 0

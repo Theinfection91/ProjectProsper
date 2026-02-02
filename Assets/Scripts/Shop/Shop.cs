@@ -184,7 +184,7 @@ public class Shop
         // Calculate base chance with weighted factors
         float baseChance =
             (demandModifier * 0.5f) +        // 50% from demand
-            (priceFairness * 0.3f); //+         // 30% from pricing
+            (priceFairness * 0.5f); //+         // 50% from pricing
             //(workerModifier * 0.2f);         // 20% from worker skill
 
         // Foot traffic affects spawn rate, not purchase chance

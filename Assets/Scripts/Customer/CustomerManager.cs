@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Customer;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
@@ -154,8 +153,11 @@ public class CustomerManager : MonoBehaviour
         
         if (debugLogging)
         {
-            Debug.Log($"[CustomerManager] ✓✓✓ CUSTOMER SPAWNED for '{shop.name}' ✓✓✓");
+            Debug.Log($"[CustomerManager] ✓✓✓ CUSTOMER SPAWNED for '{shop.name}' (Wallet: {customer.wallet}g) ✓✓✓");
         }
+
+        // Customer attempts to make a purchase
+        customer.AttemptPurchase(shop);
     }
 
     /// <summary>
