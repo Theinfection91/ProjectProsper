@@ -242,7 +242,7 @@ public class UIManager : MonoBehaviour
     {
         this.currentShopSign = currentShopSign;
         shopSizeText.text = $"Size: {currentShopSign.size}";
-        maxInventoryCapacityText.text = $"Max Inventory Capacity (Weight): {currentShopSign.maxInventoryCapacity}";
+        maxInventoryCapacityText.text = $"Max Inv. Capacity (Weight): {currentShopSign.maxInventoryCapacity}";
         maxWorkersAmountText.text = $"Max Workers: {currentShopSign.maxWorkers}";
         rentAmountText.text = $"Daily Rent Amount: {currentShopSign.dailyRent}";
         depositAmountText.text = $"Deposit (One Time): {currentShopSign.initialDepositAmount}";
