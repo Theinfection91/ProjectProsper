@@ -17,7 +17,6 @@ MonoBehaviour:
   description: 'Nixgarde''s famous flux, refined to perfection by Mr. Flaw himself. '
   itemSprite: {fileID: 0}
   baseValue: 25
-  weight: 2
-  stackSize: 5
+  weight: 1.5
   isRawMaterial: 0
   isCraftedGood: 0

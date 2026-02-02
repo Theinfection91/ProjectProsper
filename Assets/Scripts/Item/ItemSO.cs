@@ -10,7 +10,6 @@ public class ItemSO : ScriptableObject
     public Sprite itemSprite;
     public int baseValue;
     public float weight;
-    public int stackSize;
     public bool isRawMaterial;
     public bool isCraftedGood;
 }

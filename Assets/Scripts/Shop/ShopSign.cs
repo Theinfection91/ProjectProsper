@@ -16,8 +16,7 @@ public class ShopSign : MonoBehaviour, IInteractable
     public ShopSize size;
 
     // Inventory
-    public int maxItemSlots;
-    public int currentItemSlots;
+    public float maxInventoryCapacity;
 
     // Workers
     public int maxWorkers;

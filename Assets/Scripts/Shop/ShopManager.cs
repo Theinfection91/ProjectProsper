@@ -51,7 +51,7 @@ public class ShopManager : MonoBehaviour
         return true;
     }
 
-    public Shop CreatePlayerShop(string id, string shopName, ShopSize shopSize, int rent, float footTraffic, int currentItemSlots = 0, int maxItemSlots = 0)
+    public Shop CreatePlayerShop(string id, string shopName, ShopSize shopSize, int rent, float footTraffic, float maxInventoryCapacity)
     {
         Shop newShop = new Shop(id, shopName)
         {
@@ -67,14 +67,6 @@ public class ShopManager : MonoBehaviour
         if (shopSize == ShopSize.StreetVendorStall)
         {
             newShop.SetShopType(GameManager.Instance.database.GetShopByName("Resell Stall"));
-        }
-        if (currentItemSlots > 0)
-        {
-            newShop.currentItemSlots = currentItemSlots;
-        }
-        if (maxItemSlots > 0)
-        {
-            newShop.maxItemSlots = maxItemSlots;
         }
 
         RegisterShop(newShop);

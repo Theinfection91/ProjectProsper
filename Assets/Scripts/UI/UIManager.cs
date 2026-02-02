@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     [Header("ShopSign UI")]
     public Canvas shopSignCanvas;
     public TMP_Text shopSizeText;
-    public TMP_Text itemSlotsText;
+    public TMP_Text maxInventoryCapacityText;
     public TMP_Text rentAmountText;
     public TMP_Text maxWorkersAmountText;
     public TMP_Text depositAmountText;
@@ -242,7 +242,7 @@ public class UIManager : MonoBehaviour
     {
         this.currentShopSign = currentShopSign;
         shopSizeText.text = $"Size: {currentShopSign.size}";
-        itemSlotsText.text = $"Item Slots (Start/Max): {currentShopSign.currentItemSlots}/{currentShopSign.maxItemSlots}";
+        maxInventoryCapacityText.text = $"Max Inventory Capacity (Weight): {currentShopSign.maxInventoryCapacity}";
         maxWorkersAmountText.text = $"Max Workers: {currentShopSign.maxWorkers}";
         rentAmountText.text = $"Daily Rent Amount: {currentShopSign.dailyRent}";
         depositAmountText.text = $"Deposit (One Time): {currentShopSign.initialDepositAmount}";
@@ -265,7 +265,7 @@ public class UIManager : MonoBehaviour
         PlayerInventory.Instance.RemoveGold(currentShopSign.dailyRent + currentShopSign.initialDepositAmount);
 
         // Create shop and add to list
-        ShopManager.Instance.CreatePlayerShop(currentShopSign.id, shopNameInput.text, currentShopSign.size, currentShopSign.dailyRent, currentShopSign.footTrafficScore, currentShopSign.currentItemSlots, currentShopSign.maxItemSlots);
+        ShopManager.Instance.CreatePlayerShop(currentShopSign.id, shopNameInput.text, currentShopSign.size, currentShopSign.dailyRent, currentShopSign.footTrafficScore, currentShopSign.maxInventoryCapacity);
 
         Debug.Log($"{ShopManager.Instance.GetShop(currentShopSign.id).name} created.");
 

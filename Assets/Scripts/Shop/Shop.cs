@@ -36,10 +36,8 @@ public class Shop
     public Dictionary<int, int> previousEarningHistory = new(); // Key: Day number, Value: Earnings
 
     // Resell Stall Specific
-    public int currentItemSlots = 0; // Phasing out hardcoded slots in favor of dynamic item management with weight
-    public int maxItemSlots = 0;
-    public float maxWeightLoad = 500.0f; // Default max weight load
-    public float currentWeightLoad = 0.0f;
+    public float maxInventoryCapacity;
+    public float currentInventoryCapacity;
 
 
     // States
@@ -77,7 +75,7 @@ public class Shop
     {
         // Check if the shop has room for the item based on its weight and current load
         float incomingItemWeight = itemData.itemSO.weight * itemData.quantity;
-        if (currentWeightLoad + incomingItemWeight <= maxWeightLoad)
+        if (currentInventoryCapacity + incomingItemWeight <= maxInventoryCapacity)
         {
             return true;
         }
@@ -101,12 +99,12 @@ public class Shop
         }
 
         // Update weight
-        currentWeightLoad += itemData.itemSO.weight * itemData.quantity;
+        currentInventoryCapacity += itemData.itemSO.weight * itemData.quantity;
 
         // Safety clamp (avoid tiny negative or overflows)
-        if (currentWeightLoad < 0f) currentWeightLoad = 0f;
+        if (currentInventoryCapacity < 0f) currentInventoryCapacity = 0f;
 
-        Debug.Log($"[Shop] Added {itemData.quantity} x {itemData.itemSO.itemName} to '{name}'. CurrentWeight: {currentWeightLoad:F2}/{maxWeightLoad:F2}");
+        Debug.Log($"[Shop] Added {itemData.quantity} x {itemData.itemSO.itemName} to '{name}'. CurrentWeight: {currentInventoryCapacity:F2}/{maxInventoryCapacity:F2}");
     }
 
     public void RemoveItem(ItemData itemData)
@@ -118,7 +116,7 @@ public class Shop
             {
                 existingItem.quantity -= itemData.quantity;
                 // Update weight by actual removed amount
-                currentWeightLoad -= itemData.itemSO.weight * itemData.quantity;
+                currentInventoryCapacity -= itemData.itemSO.weight * itemData.quantity;
 
                 if (existingItem.quantity == 0)
                 {
@@ -126,7 +124,7 @@ public class Shop
                 }
 
                 // Safety clamp
-                if (currentWeightLoad < 0f) currentWeightLoad = 0f;
+                if (currentInventoryCapacity < 0f) currentInventoryCapacity = 0f;
             }
             else
             {
@@ -186,7 +184,7 @@ public class Shop
             });
         }
 
-        Debug.Log($"[Shop] Listed {itemData.quantity} x {itemData.itemSO.itemName} for sale in '{name}'. (Stockroom -> ForSale). CurrentWeight remains {currentWeightLoad:F2}/{maxWeightLoad:F2}");
+        Debug.Log($"[Shop] Listed {itemData.quantity} x {itemData.itemSO.itemName} for sale in '{name}'. (Stockroom -> ForSale). CurrentWeight remains {currentInventoryCapacity:F2}/{maxInventoryCapacity:F2}");
     }
 
     public float CalculatePurchaseChance(ShopItemForSale shopItemForSale)
