@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Assets.Scripts.Worker
 {
+    [Serializable]
     public class Worker
     {
         public string name;

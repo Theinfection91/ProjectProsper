@@ -27,6 +27,10 @@ public class ShopManager : MonoBehaviour
     {
         TimeManager.Instance.OnEndOfDay += HandleEndOfDay;
         TimeManager.OnHourChanged += HandleHourChanged;
+
+        // Initialize shop states for the current time
+        int currentHour = Mathf.FloorToInt(TimeManager.Instance.currentTimeOfDay * 24f);
+        HandleHourChanged(currentHour);
     }
 
     private void OnDestroy()
@@ -96,13 +100,38 @@ public class ShopManager : MonoBehaviour
 
     private void HandleHourChanged(int currentHour)
     {
+        UpdateShopOperatingStates(currentHour);
+    }
+
+    /// <summary>
+    /// Updates all shop operating states based on current time and schedules.
+    /// Call this when schedules change or time changes.
+    /// </summary>
+    public void UpdateShopOperatingStates(int currentHour)
+    {
         foreach (Shop shop in allShops)
         {
-            if (shop.ownership == ShopOwnership.Player)
-            {
-                shop.isWithinOperatingHours = shop.shopSchedule.IsShopOpenNow(TimeManager.Instance.currentDayOfWeek, currentHour);
-            }
+            // Check if shop is within operating hours based on schedule
+            bool withinSchedule = shop.shopSchedule.IsShopOpenNow(TimeManager.Instance.currentDayOfWeek, currentHour);
+            shop.isWithinOperatingHours = withinSchedule;
+
+            // Shop is "open for business" if it's player-owned, within operating hours, AND actively opened
+            // TODO: Add isPlayerOpened or similar flag when you implement the player opening/closing the shop
+            shop.isOpenForBusiness = shop.ownership == ShopOwnership.Player && withinSchedule;
         }
+    }
+
+    /// <summary>
+    /// Call this when a shop's schedule is modified to immediately update its operating state.
+    /// </summary>
+    public void RefreshShopOperatingState(Shop shop)
+    {
+        int currentHour = Mathf.FloorToInt(TimeManager.Instance.currentTimeOfDay * 24f);
+        bool withinSchedule = shop.shopSchedule.IsShopOpenNow(TimeManager.Instance.currentDayOfWeek, currentHour);
+        shop.isWithinOperatingHours = withinSchedule;
+        shop.isOpenForBusiness = shop.ownership == ShopOwnership.Player && withinSchedule;
+        
+        Debug.Log($"[ShopManager] Refreshed '{shop.name}' - Open: {shop.isOpenForBusiness}, Within Hours: {shop.isWithinOperatingHours}");
     }
 
     private void HandleEndOfDay()

@@ -52,6 +52,13 @@ public class UIManager : MonoBehaviour
     public TMP_Text yesterdayEarningsText;
     public TMP_Text totalEarningsText;
 
+    // Player Work UI
+    [Header("Player Work UI")]
+    public Canvas playerWorkCanvas;
+    public TMP_Text timeUntilCloseText; // Will say CLOSED when shop is closed
+    public TMP_Text itemsSoldCountText;
+    public TMP_Text earningsText;
+
     // Black Screen Fade
     [Header("Black Screen Fade")]
     public Image blackScreenFade;
@@ -95,6 +102,7 @@ public class UIManager : MonoBehaviour
         shopSignCanvas.enabled = false;
         shopCommandCanvas.enabled = false;
         wholesaleCanvas.enabled = false;
+        playerWorkCanvas.enabled = false;
     }
 
     void Update()
@@ -272,6 +280,28 @@ public class UIManager : MonoBehaviour
         CloseCurrentUIWindow();
     }
 
+    public void OnWorkButtonClicked()
+    {
+        // Close the shop command UI if it's open
+        if (shopCommandCanvas != null && shopCommandCanvas.enabled)
+        {
+            shopCommandCanvas.enabled = false;
+        }
+
+        CloseCurrentUIWindow();
+        OpenPlayerWorkUI();
+        PlayerMovement.Instance.SetWorkStatus(true);
+        ShopManager.Instance.GetShop(currentShopSign.id).hasPlayerWorking = true;
+    }
+
+    public void OnExitWorkButtonClicked()
+    {
+        ClosePlayerWorkUI();
+        CloseCurrentUIWindow();
+        PlayerMovement.Instance.SetWorkStatus(false);
+        ShopManager.Instance.GetShop(currentShopSign.id).hasPlayerWorking = false;
+    }
+
     public void PopulateStallShopCommand(ShopSign shopSign)
     {
         if (shopCommandCanvas == null) return;
@@ -334,6 +364,19 @@ public class UIManager : MonoBehaviour
         if (wholesaleCanvas == null) return;
         wholesaleCanvas.enabled = false;
         GameManager.Instance.ResumeGame();
+    }
+
+    public void OpenPlayerWorkUI()
+    {
+        if (playerWorkCanvas == null) return;
+        playerWorkCanvas.enabled = true;
+        currentOpenedCanvas = playerWorkCanvas;
+    }
+
+    public void ClosePlayerWorkUI()
+    {
+        if (playerWorkCanvas == null) return;
+        playerWorkCanvas.enabled = false;
     }
 
     public void PopulateWholesaleItems(Wholesaler wholesaler)

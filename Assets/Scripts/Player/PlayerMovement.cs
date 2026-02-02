@@ -23,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
     // Physics
     public Rigidbody2D rb2d;
 
+    // Work
+    public bool isWorking = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -47,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Stop if game is paused.
         if (GameManager.IsGamePaused) return;
+        if (isWorking) return;
 
         //if (Keyboard.current.eKey.wasPressedThisFrame)
         //{
@@ -97,5 +101,10 @@ public class PlayerMovement : MonoBehaviour
             Vector2 position = rb2d.position + effectiveSpeed * Time.deltaTime * _moveVector;
             rb2d.MovePosition(position);
         }
+    }
+
+    public void SetWorkStatus(bool working)
+    {
+        isWorking = working;
     }
 }

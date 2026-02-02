@@ -142,6 +142,12 @@ public class ScheduleBar : MonoBehaviour
             if (startHourDropdown != null) startHourDropdown.interactable = isOpen;
             if (endHourDropdown != null) endHourDropdown.interactable = isOpen;
             Debug.Log($"{GetDayName(dayOfWeek)} set to {(isOpen ? "Open" : "Closed")}");
+            
+            // Immediately refresh shop state if this is today
+            if (dayOfWeek == TimeManager.Instance.currentDayOfWeek)
+            {
+                ShopManager.Instance.RefreshShopOperatingState(currentShop);
+            }
         }
     }
 
@@ -152,8 +158,14 @@ public class ScheduleBar : MonoBehaviour
         DaySchedule daySchedule = currentShop.shopSchedule.GetDaySchedule(dayOfWeek);
         if (daySchedule != null)
         {
-            daySchedule.startHour = Mathf.Clamp(hourIndex, 0, 23);
-            Debug.Log($"{GetDayName(dayOfWeek)} start hour set to {FormatHour(daySchedule.startHour)}");
+            daySchedule.startHour = hourIndex;
+            Debug.Log($"{GetDayName(dayOfWeek)} start hour changed to {hourIndex}:00");
+            
+            // Immediately refresh shop state if this is today
+            if (dayOfWeek == TimeManager.Instance.currentDayOfWeek)
+            {
+                ShopManager.Instance.RefreshShopOperatingState(currentShop);
+            }
         }
     }
 
@@ -164,8 +176,14 @@ public class ScheduleBar : MonoBehaviour
         DaySchedule daySchedule = currentShop.shopSchedule.GetDaySchedule(dayOfWeek);
         if (daySchedule != null)
         {
-            daySchedule.endHour = Mathf.Clamp(hourIndex, 0, 23);
-            Debug.Log($"{GetDayName(dayOfWeek)} end hour set to {FormatHour(daySchedule.endHour)}");
+            daySchedule.endHour = hourIndex;
+            Debug.Log($"{GetDayName(dayOfWeek)} end hour changed to {hourIndex}:00");
+            
+            // Immediately refresh shop state if this is today
+            if (dayOfWeek == TimeManager.Instance.currentDayOfWeek)
+            {
+                ShopManager.Instance.RefreshShopOperatingState(currentShop);
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ public class Shop
 
     // Workers
     public List<Worker> employedWorkers = new();
+    public bool hasPlayerWorking = false;
 
     // Earnings Tracking
     public int earningsToday = 0;
