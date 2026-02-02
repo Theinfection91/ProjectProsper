@@ -71,6 +71,44 @@ public class Shop
         employedWorkers.Remove(worker);
     }
 
+    /// <summary>
+    /// Returns an integer upsell modifier representing the shop's ability to upsell customers.
+    /// Aggregates employed workers' sales skill. If no workers, returns a small base modifier.
+    /// Mapping: None=0, Apprentice=1, Journeyman=2, Expert=3, Master=4
+    /// </summary>
+    public int GetUpsellModifier()
+    {
+        if (employedWorkers == null || employedWorkers.Count == 0)
+        {
+            // base shop pitch when no staff are present
+            return 1;
+        }
+
+        int total = 0;
+        foreach (var w in employedWorkers)
+        {
+            if (w == null) continue;
+            total += SkillLevelToModifier(w.skillLevel);
+        }
+
+        float avg = (float)total / employedWorkers.Count;
+        // Add a small base so shops with low-level staff still have some chance
+        return Mathf.RoundToInt(avg) + 1;
+    }
+
+    private int SkillLevelToModifier(SkillLevel level)
+    {
+        return level switch
+        {
+            SkillLevel.None => 0,
+            SkillLevel.Apprentice => 1,
+            SkillLevel.Journeyman => 2,
+            SkillLevel.Expert => 3,
+            SkillLevel.Master => 4,
+            _ => 0
+        };
+    }
+
     public bool HasRoomForItemWeight(ItemData itemData)
     {
         // Check if the shop has room for the item based on its weight and current load

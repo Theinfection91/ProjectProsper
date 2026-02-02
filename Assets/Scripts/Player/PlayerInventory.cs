@@ -84,6 +84,10 @@ public class PlayerInventory : MonoBehaviour
                 items.Remove(existingItem);
             }
             currentInventoryWeight -= item.weight * quantity;
+            if (currentInventoryWeight < 0)
+            {
+                currentInventoryWeight = 0;
+            }
             Debug.Log($"Removed {quantity} x {item.itemName} from inventory.");
         }
     }
