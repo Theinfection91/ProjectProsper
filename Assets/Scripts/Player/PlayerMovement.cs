@@ -10,13 +10,6 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 moveDirection = new(0, 0);
     public Vector2 lastKnownXDirection = new(0, 0);
 
-    // Animator speed scaling
-    [Header("Animation Speed")]
-    [Tooltip("Base animator playback speed (1 = normal). Multiplied by TimeManager speed multiplier.")]
-    public float baseAnimatorSpeed = 1f;
-    [Tooltip("When true, animator.playback will be multiplied by TimeManager.GetSpeedMultiplier() (and paused when game is paused).")]
-    public bool scaleAnimatorWithTime = true;
-
     // Input
     public InputAction moveAction;
     public InputAction interactAction;
@@ -55,12 +48,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        // Update animator playback speed according to time flow and pause state
-        UpdateAnimatorPlaybackSpeed();
-
-        // Stop if game is paused.
         if (GameManager.IsGamePaused) return;
         if (isWorking) return;
+
+        // Update animator playback speed according to time flow and pause state
+        UpdateAnimatorPlaybackSpeed();
 
         _moveVector = moveAction.ReadValue<Vector2>();
         if (moveDirection.x >= 1 || moveDirection.x <= -1)
@@ -105,13 +97,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Adjusts the Animator playback speed according to the TimeManager multiplier and pause state.
-    /// Setting Animator.speed scales all layer/playback rates (useful for speeding up idle/walk cycles).
-    /// </summary>
     private void UpdateAnimatorPlaybackSpeed()
     {
-        if (playerAnimator == null || !scaleAnimatorWithTime) return;
+        if (playerAnimator == null) return;
 
         // If the game is paused or TimeSpeed is Paused, stop animation playback.
         if (GameManager.IsGamePaused || TimeManager.Instance.currentSpeed == TimeManager.TimeSpeed.Paused)
@@ -121,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Multiply the base animator speed by the time flow multiplier.
-        playerAnimator.speed = baseAnimatorSpeed * TimeManager.Instance.GetSpeedMultiplier();
+        playerAnimator.speed = TimeManager.Instance.GetSpeedMultiplier();
     }
 
     public void SetWorkStatus(bool working)
