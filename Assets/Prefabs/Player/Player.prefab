@@ -88,12 +88,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2031889417, guid: dc49082ec887de544b1f1302d34535c7, type: 3}
+  m_Sprite: {fileID: 1769048913, guid: d6604954e34f46d44bf361df156a8005, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.5, y: 1.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -108,7 +108,7 @@ Animator:
   m_GameObject: {fileID: 8197049178294588883}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5373b409ebf3f9d45bf4aaff383c016f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 746026f2840ecaa4b916bc8f111f83fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  playerAnimator: {fileID: 3153348540876433671}
   moveDirection: {x: 0, y: 0}
   lastKnownXDirection: {x: 0, y: 0}
   moveAction:
@@ -260,6 +261,7 @@ MonoBehaviour:
   canMove: 1
   _moveVector: {x: 0, y: 0}
   rb2d: {fileID: 5399726142038420562}
+  isWorking: 0
 --- !u!114 &1614134831561616732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,4 +304,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afde1200c489ac8449b55b2da9ac1e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
-  gold: 0
+  gold: 2000
+  maxInventoryWeight: 100
+  currentInventoryWeight: 0
+  items:
+  - itemSO: {fileID: 11400000, guid: 964626f8298823848bff09513d8af28d, type: 2}
+    quantity: 15
+  - itemSO: {fileID: 11400000, guid: a1aeed37512a16244b6c189b63dc81d2, type: 2}
+    quantity: 15
